@@ -18,7 +18,7 @@ buildah run ${IMAGE} -- sh -c "$(cat <<E_LOG_EXEC
 cat <<EOF > /root/info.txt
 Tools:
  - bash
- - crul
+ - curl
  - darkhttpd
  - dig
  - iperf3
