@@ -1,0 +1,131 @@
+# vim:fdm=marker
+
+# vi key bindings
+bindkey -v
+
+# Plugins for zsh. {{{
+source $HOME/.zsh/antigen.zsh
+
+# Load the oh-my-zsh's library.
+antigen use oh-my-zsh
+
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle z
+antigen bundle copydir
+antigen bundle colored-man-pages
+antigen bundle dnf
+antigen bundle golang
+antigen bundle cargo
+antigen bundle fzf
+antigen bundle git
+antigen bundle command-not-found
+antigen bundle colorize
+antigen bundle zsh_reload
+antigen bundle zsh-syntax-highlighting
+antigen bundle history-substring-search
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-completions
+
+antigen bundle 'wfxr/forgit'
+
+antigen theme romkatv/powerlevel10k
+
+# Tell antigen that you're done.
+antigen apply
+# }}}
+
+# --> Colors {{{
+autoload colors; colors;
+export LSCOLORS="Gxfxcxdxbxegedabagacad"
+export ZLSCOLORS="${LSCOLORS}"
+# }}}
+
+# --> Environment Variables {{{
+export TERM=xterm-256color
+export EDITOR="nvim"
+export FZF_DEFAULT_COMMAND='rg  --files --hidden --follow --glob "!.git/*"'
+export DISABLE_AUTO_TITLE=true
+export GOPATH=${HOME}/go
+export GOBIN=${HOME}/bin
+export MYPATH=${GOBIN}:$HOME/.cargo/bin
+if [[ "$(uname)" == "Linux" ]]; then
+    export GOROOT=/usr/local/go
+    export MYPATH=${MYPATH}:${GOROOT}/bin
+fi
+export PATH=${MYPATH}:${PATH}
+export GOSUMDB=off
+export VSSH_USERNAME=pepe
+# <-- Environment Variables }}}
+
+# --> Alias {{{
+alias vi="nvim"
+alias tdev="TERM=xterm-256color tmux attach -t dev || TERM=xterm-256color tmux new -s dev"
+alias lg="lazygit"
+
+# Podman rm
+alias pmrm="sudo podman ps -a | fzf -m --no-sort | awk '{ print \$1 }' | xargs -I % sudo podman rm % --force"
+# Clean go cache
+alias goclean='go clean -modcache'
+# Download go modules to local cache
+alias gomodd='find . -name go.mod -execdir go mod download \;'
+
+### Stage files with fzf multi-select
+alias ga="git ls-files -m -o --exclude-standard | fzf --print0 -m --preview 'bat --style=numbers --color=always {}' | xargs -0 -t -o git add"
+### Diff files with fzf multi-select
+alias gd="git ls-files -m -o --exclude-standard | fzf --print0 -m --preview 'bat --style=numbers --color=always {}' | xargs -0 -t -o git diff"
+alias gst='git status'
+# <-- Alias }}}
+
+# --> Includes {{{
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f /usr/share/fzf/shell/key-bindings.zsh ] && source /usr/share/fzf/shell/key-bindings.zsh
+
+# Add direnv hook if direnv exists
+#[[ ! type direnv > /dev/null ]] && eval "$(direnv hook zsh)"
+
+# }}}
+
+# --> Functions {{{
+
+# fzf between local branches with commit previews z
+s () {
+  S_BRANCH=$(git for-each-ref --sort=-committerdate --format="%(refname)" refs/heads | fzf --preview="git log {}")
+  if [ ! -z "S_BRANCH" ]
+  then
+    R_BRANCH=$(echo $S_BRANCH | sed -e 's@refs/heads/@@')
+    if [ ! -z "$R_BRANCH" ]
+    then
+      git checkout $R_BRANCH
+    fi
+  fi
+}
+
+# fzf between remote branches with commit previews
+sr () {
+  git fetch -p
+  S_BRANCH=$(git for-each-ref --sort=-committerdate --format="%(refname)" refs/remotes | fzf --preview="git log {}")
+  if [ ! -z "S_BRANCH" ]
+  then
+    R_BRANCH=$(echo $S_BRANCH | sed -e 's@refs/remotes/@@')
+    if [ ! -z "$R_BRANCH" ]
+    then
+      git checkout $R_BRANCH
+    fi
+  fi
+}
+
+# }}}
+
+# --> Powerlevel10k prompt {{{
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# customize prompt
+POWERLEVEL9K_CONTEXT_TEMPLATE='%n@%m'
+POWERLEVEL9K_CONTEXT_DEFAULT_FOREGROUND='green'
+POWERLEVEL9K_IP_FOREGROUND='green'
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon context dir vcs)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time time ip)
+# }}}
