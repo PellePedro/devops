@@ -38,6 +38,9 @@ buildah config \
 	--workingdir /home/${username} \
 	${IMAGE}
 
+# Install RUST
+cat app-releases/install-rust-linux | buildah run ${IMAGE} -- bash
+
 buildah copy ${IMAGE} $(pwd)/dotfiles $home/.dotfiles
 buildah run  ${IMAGE}  $home/.dotfiles/bootstrap.sh
 
