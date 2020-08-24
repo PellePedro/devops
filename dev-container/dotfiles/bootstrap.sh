@@ -83,7 +83,7 @@ if [[ "$(uname)" == "Linux" ]]; then
 fi
 
 # lazygit
-go get github.com/jesseduffield/lazygit
+go get -u  github.com/jesseduffield/lazygit
 go get -u github.com/kisielk/errcheck
 go get -u github.com/zmb3/gogetdoc
 go get -u golang.org/x/tools/cmd/goimports

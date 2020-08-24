@@ -1,11 +1,13 @@
 dnf update  -y && dnf install -y \
 curl \
+ctags \
 direnv \
 fzf \
 gcc \
 git \
 links \
 make \
+neovim \
 nodejs \
 npm \
 openssh-clients \
