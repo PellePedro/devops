@@ -61,18 +61,19 @@ pip3 install --user --upgrade yq
 
 if [[ ! -d "${HOME}/.config/nvim" ]]; then
     git clone https://github.com/pellepedro/nvim.git $HOME/.config/nvim
+
+    echo "=== Installing Plugins ==="
     nvim --headless -c PlugInstall -c UpdateRemotePlugins -c qa!
-    #nvim --headless -c InstallCoc -c qa!
-    nvim --headless -c "CocInstall  coc-rls"              -c qa!
-    nvim --headless -c "CocInstall  coc-go"               -c qa!
-    nvim --headless -c "CocInstall  coc-yaml"             -c qa!
-    nvim --headless -c "CocInstall  coc-json"             -c qa!
-    nvim --headless -c "CocInstall  coc-highlight"        -c qa!
-    nvim --headless -c "CocInstall  coc-python"           -c qa!
-    nvim --headless -c "CocInstall  coc-diagnostic"       -c qa!
-    nvim --headless -c "CocInstall  coc-java"             -c qa!
-    nvim --headless -c "CocInstall  coc-java-debug"       -c qa!
-    nvim --headless -c "CocInstall  coc-snippets"         -c qa!
+
+    echo "=== Installing Coc extensions ==="
+    mkdir -p ~/.config/coc/extensions
+    pushd ~/.config/coc/extensions
+    [[ ! -f package.json ]] && echo '{"dependencies":{}}'> package.json
+
+    npm install \
+    coc-diagnostic coc-go coc-highlight coc-java coc-java-debug coc-json \
+    coc-pairs coc-python coc-rls coc-sh coc-snippets coc-yaml \
+    --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
 fi
 
 mkdir -p $HOME/go/{src,bin}
