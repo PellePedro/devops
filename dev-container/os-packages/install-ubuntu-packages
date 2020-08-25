@@ -18,6 +18,7 @@ ripgrep \
 ruby \
 ruby-dev \
 rubygems \
+screen \
 shellcheck \
 sshpass \
 sudo \

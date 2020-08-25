@@ -61,6 +61,8 @@ export VSSH_USERNAME=pepe
 alias vi="nvim"
 alias tdev="TERM=xterm-256color tmux attach -t dev || TERM=xterm-256color tmux new -s dev"
 alias lg="lazygit"
+alias screend="MUX=SCREEN screen -dmS dev"
+alias doscreen="MUX=SCREEN screen -dr dev"
 
 # Podman rm
 alias pmrm="sudo podman ps -a | fzf -m --no-sort | awk '{ print \$1 }' | xargs -I % sudo podman rm % --force"
