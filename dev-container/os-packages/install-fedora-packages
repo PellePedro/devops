@@ -22,6 +22,7 @@ screen \
 ShellCheck \
 sshpass \
 tree \
+unzip \
 vifm \
 wget \
 zsh

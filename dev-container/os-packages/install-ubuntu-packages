@@ -23,6 +23,7 @@ shellcheck \
 sshpass \
 sudo \
 tree \
+unzip \
 vifm \
 wget \
 zsh \
