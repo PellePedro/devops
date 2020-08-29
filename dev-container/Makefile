@@ -50,3 +50,9 @@ run-ubuntu-dev-container:	## - run devenv container
 push:	## - Tag and push the udev container
 	@printf "\033[32m\xE2\x9c\x93 Pushing Image ${UBUNTU_DEV} to ${REGISTRY_FQDN} \033[0m"
 	@sudo buildah push ${IMAGE} "docker://${REGISTRY_FQDN}/${UBUNTU_DEV}:${TAG}"
+
+.PHONY: list-sample-repo
+list-sample-repo:	## - List sample repos to test LSP
+	@printf "\033[32m\xE2\x9c\x93 git clone https://github.com/rakyll/hey.git \033[0m\n"
+	@printf "\033[32m\xE2\x9c\x93 git clone https://github.com/kataras/iris.git \033[0m\n"
+	@printf "\033[32m\xE2\x9c\x93 git clone https://github.com/tikv/grpc-rs.git \033[0m\n"
