@@ -28,6 +28,7 @@ mkdir -p $HOME/.config
 
 config_files=(
 ${HOME}/.zshrc
+${HOME}/.tmux.conf
 ${HOME}/.p10k.zsh
 ${HOME}/.vifm/vifmrc
 ${HOME}/.vifm/colors/nord.vifm
@@ -39,6 +40,7 @@ done
 config_directories=(
 ${HOME}/.zsh
 ${HOME}/.antigen
+${HOME}/.tmux
 )
 for directory in "${config_directories[@]}"; do
     [[ -d $directory ]] && rm -rf $directory && echo "removing $directory"
@@ -50,6 +52,9 @@ mkdir -p $HOME/.zsh
 ln -sf $DOTFILES_HOME/zsh/zshrc $HOME/.zshrc
 cp $DOTFILES_HOME/zsh/p10k.zsh $HOME/.p10k.zsh
 curl -fLo $HOME/.zsh/antigen.zsh --create-dirs https://git.io/antigen
+
+# Bootstrap tmux
+ln -sf $DOTFILES_HOME/tmux/tmux.conf $HOME/.tmux.conf
 
 # Bootstrap vifm
 ln -sf $DOTFILES_HOME/vifm/vifmrc $HOME/.vifm/vifmrc

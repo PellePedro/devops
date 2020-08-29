@@ -1,5 +1,9 @@
+#echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/ /" \
+#         > /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+#curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_${VERSION_ID}/Release.key \
+#  | sudo apt-key add -
 export DEBIAN_FRONTEND=noninteractive
-apt-get update  -y && apt-get install -y \
+apt-get update  -y && apt-get install --no-install-recommends -y \
 ctags \
 curl \
 direnv \
@@ -23,6 +27,7 @@ shellcheck \
 sshpass \
 sudo \
 tree \
+tmux \
 unzip \
 vifm \
 wget \
