@@ -36,6 +36,7 @@ EOF
 buildah config \
 	--user $username:$username \
 	--workingdir /home/${username} \
+	--env TMUX="tmux-osc52" \
 	${IMAGE}
 
 # Install RUST
