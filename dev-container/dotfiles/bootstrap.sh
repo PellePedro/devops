@@ -53,9 +53,6 @@ ln -sf $DOTFILES_HOME/zsh/zshrc $HOME/.zshrc
 cp $DOTFILES_HOME/zsh/p10k.zsh $HOME/.p10k.zsh
 curl -fLo $HOME/.zsh/antigen.zsh --create-dirs https://git.io/antigen
 
-# Bootstrap tmux
-ln -sf $DOTFILES_HOME/tmux/tmux.conf $HOME/.tmux.conf
-
 # Bootstrap vifm
 ln -sf $DOTFILES_HOME/vifm/vifmrc $HOME/.vifm/vifmrc
 ln -sf $DOTFILES_HOME/vifm/colors/nord.vifm $HOME/.vifm/colors/nord.vifm
@@ -64,6 +61,7 @@ ln -sf $DOTFILES_HOME/vifm/colors/nord.vifm $HOME/.vifm/colors/nord.vifm
 pip3 install --user --upgrade pynvim
 pip3 install --user --upgrade yq
 
+#  nvim configuration
 if [[ ! -d "${HOME}/.config/nvim" ]]; then
     git clone https://github.com/pellepedro/nvim.git $HOME/.config/nvim
 
@@ -71,8 +69,7 @@ if [[ ! -d "${HOME}/.config/nvim" ]]; then
     nvim --headless -c PlugInstall -c UpdateRemotePlugins -c qa!
 
     echo "=== Installing Coc extensions ==="
-    mkdir -p ~/.config/coc/extensions
-    pushd ~/.config/coc/extensions
+    mkdir -p ~/.config/coc/extensions && pushd ~/.config/coc/extensions
     [[ ! -f package.json ]] && echo '{"dependencies":{}}'> package.json
 
     npm install \
@@ -80,6 +77,11 @@ if [[ ! -d "${HOME}/.config/nvim" ]]; then
     coc-pairs coc-python coc-rls coc-sh coc-snippets coc-yaml \
     --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
 fi
+
+#  tmux configuration
+[[ ! -d "${HOME}/.tmux" ]] && rm -rf $HOME/.tmux
+git clone --recurse https://github.com/pellepedro/tmux.git $HOME/.tmux
+cp /Users/pedro/.tmux/.tmux.conf $HOME
 
 mkdir -p $HOME/go/{src,bin}
 export GOBIN=${HOME}/bin
