@@ -81,7 +81,7 @@ fi
 #  tmux configuration
 [[ ! -d "${HOME}/.tmux" ]] && rm -rf $HOME/.tmux
 git clone --recurse https://github.com/pellepedro/tmux.git $HOME/.tmux
-cp /Users/pedro/.tmux/.tmux.conf $HOME
+cp ${HOME}/.tmux/.tmux.conf $HOME
 
 mkdir -p $HOME/go/{src,bin}
 export GOBIN=${HOME}/bin
