@@ -59,6 +59,7 @@ ln -sf $DOTFILES_HOME/vifm/colors/nord.vifm $HOME/.vifm/colors/nord.vifm
 
 #  pip3 packages
 pip3 install --user --upgrade pynvim
+pip3 install --user --upgrade pytest
 pip3 install --user --upgrade yq
 
 #  nvim configuration
