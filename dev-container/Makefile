@@ -1,7 +1,7 @@
 
 HOME := /home/pedro
-REGISTRY := registry.pellep.io
-REGISTRY_FQDN=pellepedro
+PUBLIC_FEDORA_CONTAINER := docker.io/pellepedro/devenv:latest
+PUBLIC_UBUNTU_CONTAINER := docker.io/pellepedro/udevenv:latest
 FEDORA_BASE := fedora-base:latest
 UBUNTU_BASE := ubuntu-base:latest
 UBUNTU_DEV := udev
@@ -25,7 +25,7 @@ build-fedora-dev-container:	## - Build dev container based on Fedora
 	@sudo buildah rm --all
 	@sudo ./build-base-container.sh ${FEDORA_BASE} fedora
 	@sudo ./build-dev-container.sh ${FEDORA_BASE} ${FEDORA_DEV}
-	@sudo podman tag ${FEDORA_DEV} ${REGISTRY}/${FEDORA_DEV}
+	@sudo podman tag ${FEDORA_DEV} ${PUBLIC_FEDORA_CONTAINER}
 
 .PHONY: build-ubuntu-dev-container
 build-ubunntu-dev-container:	## - Build dev container based on Ubuntu
@@ -33,7 +33,7 @@ build-ubunntu-dev-container:	## - Build dev container based on Ubuntu
 	@sudo buildah rm --all
 	@sudo ./build-base-container.sh ${UBUNTU_BASE} ubuntu
 	@sudo ./build-dev-container.sh ${UBUNTU_BASE} ${UBUNTU_DEV}
-	@sudo podman tag ${UBUNTU_DEV} ${REGISTRY}/${UBUNTU_DEV}
+	@sudo podman tag ${UBUNTU_DEV} ${PUBLIC_UBUNTU_CONTAINER}
 
 .PHONY: Run-fedora-dev-container	## - Run dev container based on Fedora
 run-fedora-dev-container:	## - run devenv container
@@ -46,10 +46,15 @@ run-ubuntu-dev-container:	## - run devenv container
 	@printf "\033[32m\xE2\x9c\x93 mounting $HOME to /home/devops/src \033[0m\n"
 	@sudo podman run -it --security-opt label=disable -v ${HOME}:/home/devops/src   ${UBUNTU_DEV} -name udev
 
+.PHONY: run-devenv	## - run devenv container
+run-devenv:	## - run devenv container
+	@printf "\033[32m\xE2\x9c\x93 Running Development Container ${PUBLIC_FEDORA_CONTAINER} \033[0m\n"
+	@sudo podman run -it --security-opt label=disable  -v ${HOME}:/home/devops/src  ${PUBLIC_FEDORA_CONTAINER} -name devenv
+
 .PHONY: push
 push:	## - Tag and push the udev container
-	@printf "\033[32m\xE2\x9c\x93 Pushing Image ${UBUNTU_DEV} to ${REGISTRY_FQDN} \033[0m"
-	@sudo buildah push ${IMAGE} "docker://${REGISTRY_FQDN}/${UBUNTU_DEV}:${TAG}"
+	@printf "\033[32m\xE2\x9c\x93 Pushing Image ${PUBLIC_FEDORA_CONTAINER} \033[0m"
+	@sudo buildah push ${FEDORA_DEV} "docker://${PUBLIC_FEDORA_CONTAINER}"
 
 .PHONY: list-sample-repo
 list-sample-repo:	## - List sample repos to test LSP
