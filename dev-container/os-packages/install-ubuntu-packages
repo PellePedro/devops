@@ -12,7 +12,6 @@ gcc \
 git \
 links \
 make \
-neovim \
 nodejs \
 npm \
 python3 \
