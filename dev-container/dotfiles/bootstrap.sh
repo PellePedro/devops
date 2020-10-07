@@ -63,21 +63,12 @@ pip3 install --user --upgrade pytest
 pip3 install --user --upgrade yq
 
 #  nvim configuration
-if [[ ! -d "${HOME}/.config/nvim" ]]; then
-    git clone https://github.com/pellepedro/nvim.git $HOME/.config/nvim
+nvimHome=${HOME}/.config/nvim
+[[ -d $nvimHome ]] && rm -rf $nvimHome
+git clone --single-branch --branch nvim-lsp https://github.com/pellepedro/nvim.git $HOME/.config/nvim
 
-    echo "=== Installing Plugins ==="
-    nvim --headless -c PlugInstall -c UpdateRemotePlugins -c qa!
-
-    echo "=== Installing Coc extensions ==="
-    mkdir -p ~/.config/coc/extensions && pushd ~/.config/coc/extensions
-    [[ ! -f package.json ]] && echo '{"dependencies":{}}'> package.json
-
-    npm install \
-    coc-diagnostic coc-go coc-highlight coc-java coc-java-debug coc-json \
-    coc-pairs coc-python coc-rls coc-sh coc-snippets coc-yaml \
-    --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
-fi
+echo "=== Installing Plugins ==="
+nvim --headless -c PlugInstall -c UpdateRemotePlugins -c qa!
 
 #  tmux configuration
 [[ ! -d "${HOME}/.tmux" ]] && rm -rf $HOME/.tmux
