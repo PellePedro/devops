@@ -81,6 +81,9 @@ if [[ "$(uname)" == "Linux" ]]; then
   export PATH=${PATH}:/usr/local/go/bin
 fi
 
+mkdir -p $HOME/.cache/nvim/
+touch $HOME/.cache/nvim/vista.log
+
 # lazygit
 go get -u  github.com/jesseduffield/lazygit
 go get -u github.com/kisielk/errcheck
