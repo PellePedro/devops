@@ -65,7 +65,7 @@ pip3 install --user --upgrade yq
 #  nvim configuration
 nvimHome=${HOME}/.config/nvim
 [[ -d $nvimHome ]] && rm -rf $nvimHome
-git clone --single-branch --branch nvim-lsp https://github.com/pellepedro/nvim.git $HOME/.config/nvim
+git clone --single-branch --branch nvim-lsp https://github.com/pellepedro/nvim.git $nvimHome
 
 echo "=== Installing Plugins ==="
 nvim --headless -c PlugInstall -c UpdateRemotePlugins -c qa!
