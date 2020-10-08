@@ -63,8 +63,9 @@ pip3 install --user --upgrade pytest
 pip3 install --user --upgrade yq
 
 #  nvim configuration
-rm -rf  "${HOME}/.config/nvim"
-git clone --single-branch --branch nvim-lsp https://github.com/pellepedro/nvim.git $HOME/.config/nvim
+nvimHome=${HOME}/.config/nvim
+[[ -d $nvimHome ]] && rm -rf $nvimHome
+git clone --single-branch --branch nvim-lsp https://github.com/pellepedro/nvim.git $nvimHome
 
 echo "=== Installing Plugins ==="
 nvim --headless -c PlugInstall -c UpdateRemotePlugins -c qa!
@@ -79,6 +80,9 @@ export GOBIN=${HOME}/bin
 if [[ "$(uname)" == "Linux" ]]; then
   export PATH=${PATH}:/usr/local/go/bin
 fi
+
+mkdir -p $HOME/.cache/nvim/
+touch $HOME/.cache/nvim/vista.log
 
 # lazygit
 go get -u  github.com/jesseduffield/lazygit
