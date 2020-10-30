@@ -1,0 +1,23 @@
+sudo dnf install -y \
+gcc \
+virt-manager \
+qemu-kvm \
+qemu-img \
+libvirt-daemon \
+libvirt-daemon-driver* \
+libvirt-devel \
+libxml2-devel \
+libxslt-devel \
+redhat-rpm-config \
+ruby-devel \
+
+
+sudo usermod -aG libvirt $USER
+sudo systemctl restart libvirtd
+sudo systemctl status libvirtd
+sudo dnf install -y vagrant
+sudo dnf remove -y vagrant-libvirt rubygem-fog-core
+
+vagrant plugin install vagrant-libvirt
+vagrant plugin install vagrant-reload
+
