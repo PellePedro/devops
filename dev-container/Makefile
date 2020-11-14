@@ -38,7 +38,12 @@ build-ubunntu-dev-container:	## - Build dev container based on Ubuntu
 .PHONY: Run-fedora-dev-container	## - Run dev container based on Fedora
 run-fedora-dev-container:	## - run devenv container
 	@printf "\033[32m\xE2\x9c\x93 Running Development Container ${FEDORA_DEV} \033[0m\n"
-	@sudo podman run -it -v ${HOME}/.netrc:/home/devops/.netrc -v ${HOME}:/home/devops/host:z ${FEDORA_DEV} -name fdev
+	@sudo podman run -it \
+		-v ${HOME}/.netrc:/home/devops/.netrc:z \
+		-v ${HOME}/.ssh:/home/devops/.ssh:z \
+		-v ${HOME}:/home/devops/host:rw \
+		-v ${HOME}/go/pkg/mod:/home/devops/go/pkg/mod:z \
+	${PUBLIC_FEDORA_CONTAINER} -name fdev
 
 .PHONY: Run-ubuntu-dev-container	## - Run dev container based on Ubuntu
 run-ubuntu-dev-container:	## - run devenv container
@@ -48,8 +53,13 @@ run-ubuntu-dev-container:	## - run devenv container
 
 .PHONY: run-devenv	## - run devenv container
 run-devenv:	## - run devenv container
-	@printf "\033[32m\xE2\x9c\x93 Running Development Container ${PUBLIC_FEDORA_CONTAINER} \033[0m\n"
-	@sudo podman run -it --security-opt label=disable  -v ${HOME}:/home/devops/src  ${PUBLIC_FEDORA_CONTAINER} -name devenv
+	@printf "\033[32m\xE2\x9c\x93 Running Development Container ${FEDORA_DEV} \033[0m\n"
+	@sudo podman run -it --privileged \
+		-v ${HOME}/.netrc:/home/devops/.netrc:z \
+		-v ${HOME}/.ssh:/home/devops/.ssh:z \
+		-v ${HOME}:/home/devops/host:rw \
+		-v ${HOME}/go/pkg/mod:/home/devops/go/pkg/mod:z \
+	${PUBLIC_FEDORA_CONTAINER} -name fdev
 
 .PHONY: push
 push:	## - Tag and push the udev container
