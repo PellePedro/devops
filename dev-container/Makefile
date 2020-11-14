@@ -38,7 +38,7 @@ build-ubunntu-dev-container:	## - Build dev container based on Ubuntu
 .PHONY: Run-fedora-dev-container	## - Run dev container based on Fedora
 run-fedora-dev-container:	## - run devenv container
 	@printf "\033[32m\xE2\x9c\x93 Running Development Container ${FEDORA_DEV} \033[0m\n"
-	@sudo podman run -it  -v ${HOME}:/home/pedro:z -w /home/pedro  ${FEDORA_DEV} -name fdev
+	@sudo podman run -it -v ${HOME}/.netrc:/home/devops/.netrc -v ${HOME}:/home/devops/host:z ${FEDORA_DEV} -name fdev
 
 .PHONY: Run-ubuntu-dev-container	## - Run dev container based on Ubuntu
 run-ubuntu-dev-container:	## - run devenv container

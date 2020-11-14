@@ -68,7 +68,7 @@ nvimHome=${HOME}/.config/nvim
 git clone https://github.com/pellepedro/nvim.git $nvimHome
 
 echo "=== Installing Plugins ==="
-nvim --headless -c PlugInstall -c UpdateRemotePlugins -c qa!
+nvim -u "${HOME}"/.config/nvim/vim-plug/plugins.vim --headless -c PlugInstall -c UpdateRemotePlugins -c qa!
 
 #  tmux configuration
 [[ ! -d "${HOME}/.tmux" ]] && rm -rf $HOME/.tmux
