@@ -11,8 +11,8 @@ IMAGE=$2
 #
 #################################################################################
 
-buildah from --name ${IMAGE} ${BASE}
-
+runtime_container=$(buildah from --name ${IMAGE} ${BASE})
+runtime_mount=$(buildah mount $runtime_container)
 
 ##################
 # Setup Local User
@@ -44,6 +44,24 @@ cat app-releases/install-rust-linux | buildah run ${IMAGE} -- bash
 
 buildah copy ${IMAGE} $(pwd)/dotfiles $home/.dotfiles
 buildah run  ${IMAGE}  $home/.dotfiles/bootstrap.sh
+
+## Kubernetes client codegen
+K8S_BRANCH="release-1.19"
+GIT_CODEGENERATOR="https://github.com/kubernetes/code-generator.git"
+CODEGENERATOR_DIR=/opt/code-generator
+
+build_container=$(buildah from golang:latest)
+build_mount=$(buildah mount $build_container)
+
+buildah run $build_container git clone --branch $K8S_BRANCH $GIT_CODEGENERATOR $CODEGENERATOR_DIR
+buildah config --workingdir $CODEGENERATOR_DIR $build_container
+buildah run $build_container go install ./cmd/{defaulter-gen,conversion-gen,client-gen,lister-gen,informer-gen,deepcopy-gen,openapi-gen}
+
+rsync -a $build_mount/go/bin/* $runtime_mount/home/${username}/bin
+# Clean up
+buildah unmount $build_container
+buildah unmount $runtime_container
+buildah rm $build_container
 
 
 buildah config --entrypoint /bin/zsh ${IMAGE}
