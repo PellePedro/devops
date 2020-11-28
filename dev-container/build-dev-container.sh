@@ -39,7 +39,7 @@ buildah config \
 	--env TMUX="tmux-osc52" \
 	${IMAGE}
 
-# Install RUST
+# RUST
 cat app-releases/install-rust-linux | buildah run ${IMAGE} -- bash
 
 buildah copy ${IMAGE} $(pwd)/dotfiles $home/.dotfiles

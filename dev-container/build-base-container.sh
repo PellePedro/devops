@@ -18,7 +18,8 @@ if [[ ! $OS =~ (fedora) && ! $OS =~ (ubuntu) ]]; then
     exit
 fi
 
-buildah from --name ${IMAGE} ${OS}
+runtime_container=$(buildah from --name ${IMAGE} ${OS})
+runtime_mount=$(buildah mount $runtime_container)
 
 # Install/update os distro packages
 cat os-packages/install-${OS}-packages | buildah run ${IMAGE} -- sh
@@ -29,8 +30,26 @@ cat app-releases/install-go-linux | buildah run ${IMAGE} -- bash
 # Install java jdk
 cat app-releases/install-jdk-linux | buildah run ${IMAGE} -- bash
 
+# ==================== Build Neovim ==========================================
 
-# Install dev
+nvim_build_image=ubuntu:20.04
+nvim_build_container=$(buildah from ${nvim_build_image} )
+nvim_build_mount=$(buildah mount ${nvim_build_container} )
+
+cat os-packages/nvim-build-env | buildah run ${nvim_build_container} -- bash
+buildah config --workingdir /neovim ${nvim_build_container}
+
+cat <<-EOF | buildah run ${nvim_build_container} -- bash
+	git tag -d nightly
+	git tag nightly
+	make CMAKE_BUILD_TYPE=RelWithDebInfo
+	make CMAKE_INSTALL_PREFIX=/neovim/install install
+EOF
+rsync -a ${nvim_build_mount}/neovim/install/  ${runtime_mount}/usr/local
+
+# =============================================================================
+
+# ==================== Install Dev Tools ======================================
 cat app-releases/install-dev-tools | buildah run ${IMAGE} -- bash
 
 export GOROOT=/usr/local/go
@@ -40,8 +59,12 @@ buildah config \
 	--env GOROOT=$GOROOT     \
 	--env PATH=$PATH:${JDK_HOME}/bin:${GOROOT}/bin \
 	${IMAGE}
+# =============================================================================
 
+#buildah unmount ${nvim_build_mount}
+#buildah unmount ${runtime_mount}
 buildah commit --squash --rm $IMAGE $IMAGE
+buildah commit --squash --rm ${nvim_build_container} nvim-builder
 
 ################################################################################
 # End
