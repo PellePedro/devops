@@ -20,9 +20,10 @@ runtime_mount=$(buildah mount $runtime_container)
 
 OS=$(awk -F= '/^ID=/ {print $2}' /etc/os-release)
 
-userid=1000
-groupid=1000
 username=devops
+userid=${SUDO_UID:=1000}
+groupid=${SUDO_GID:=1000}
+
 groupname=$username
 home=/home/$username
 
@@ -30,7 +31,7 @@ cat <<-EOF | buildah run ${IMAGE} -- sh
 	groupadd -g $groupid $username
 	useradd -u $userid --create-home --gid $username $username
 	usermod -a -G sudo $username
-	echo "$username\tALL=(ALL)\tNOPASSWD:ALL" > /etc/sudoers.d/devops
+	echo "$username  ALL=(ALL)  NOPASSWD:ALL" > /etc/sudoers.d/devops
 EOF
 
 buildah config \

@@ -54,7 +54,7 @@ run-ubuntu-dev-container:	## - run devenv container
 .PHONY: run-devenv	## - run devenv container
 run-devenv:	## - run devenv container
 	@printf "\033[32m\xE2\x9c\x93 Running Development Container ${FEDORA_DEV} \033[0m\n"
-	@sudo podman run -it --privileged \
+	@sudo podman run -itu root --privileged \
 		-v ${HOME}/.netrc:/home/devops/.netrc:z \
 		-v ${HOME}/.ssh:/home/devops/.ssh:z \
 		-v ${HOME}:/home/devops/host:rw \
