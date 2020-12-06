@@ -1,8 +1,8 @@
 #/bin/bash
 
-PUBLIC_FEDORA_CONTAINER=docker.io/pellepedro/devenv:latest
+PUBLIC_FEDORA_CONTAINER=docker.io/pellepedro/fedora-dev:latest
 
-printf "\033[32m\xE2\x9c\x93 Running Development Container ${FEDORA_DEV} \033[0m\n"
+printf "\033[32m\xE2\x9c\x93 Running Fedora Development Container \033[0m\n"
 sudo podman run -it --privileged \
     -v ${HOME}/.netrc:/home/devops/.netrc:z \
     -v ${HOME}/.ssh:/home/devops/.ssh:z \
