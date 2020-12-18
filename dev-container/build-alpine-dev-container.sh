@@ -33,6 +33,17 @@ cat <<-EOF | buildah run ${runtime_container} -- ash
 	rsync \
 	ripgrep \
 	fzf \
+	nmap \
+    net-tools \
+    libpcap \
+    musl \
+    arp-scan \
+    darkhttpd \
+    tcpdump \
+    iperf3 \
+    openssh \
+    netcat-openbsd \
+    bind-tools \
 	nodejs \
 	python3 \
 	python3-dev \
@@ -44,6 +55,7 @@ cat <<-EOF | buildah run ${runtime_container} -- ash
 	vifm \
 	zsh \
 	sudo
+    apk add arp-scan --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing
 EOF
 
 #buildah config --workingdir /neovim ${build_container}
@@ -83,6 +95,7 @@ home=/home/$username
 cat <<-EOF | buildah run ${runtime_container} -- ash
 	addgroup -g $groupid $groupname && \
 	adduser -D -u $userid -h /home/$username -G $groupname $username && \
+	mkdir -p /etc/sudoers.d
 	echo "$username  ALL=(ALL)  NOPASSWD:ALL" > /etc/sudoers.d/$username && \
 	chmod 0440 /etc/sudoers.d/$username
 EOF
@@ -98,7 +111,7 @@ buildah config \
 
 buildah copy ${runtime_container} $(pwd)/dotfiles $home/.dotfiles
 
-cat <<-EOF | buildah run ${runtime_container} -- ash
+cat <<-EOF | buildah run ${runtime_container} -- bash
 	$home/.dotfiles/bootstrap.sh
 	sudo chown -R devops:devops $home/.*
 EOF

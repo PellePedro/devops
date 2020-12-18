@@ -1,0 +1,84 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+ENV['VAGRANT_NO_PARALLEL'] = 'yes'
+ENV['VAGRANT_DEFAULT_PROVIDER'] = 'libvirt'
+CLUSTER_DOMAIN = 'k8s.lab'
+MASTER_IP = '172.16.16.100'
+MACHINE_NETWORK = '172.16.16.10'
+POD_NETWORK_CIDR = '192.168.0.0/16'
+
+REGISTRY_CRT = File.expand_path('../registry-auth/registry.crt', __FILE__)
+
+$gen_etc_host = <<-'GEN_ETC_HOST'
+echo "[PREP TASK] Update /etc/hosts file"
+cat >/etc/hosts <<EOF
+127.0.0.1       localhost        localhost
+172.16.16.100   master.k8s.lab   master
+172.16.16.101   worker1.k8s.lab  worker1
+172.16.16.102   worker2.k8s.lab  worker2
+172.16.16.103   worker3.k8s.lab  worker3
+172.16.16.104   worker4.k8s.lab  worker4
+EOF
+GEN_ETC_HOST
+
+Vagrant.configure(2) do |config|
+
+  # Add registry certificate as trusted certificate
+  config.vm.provision "file", source: "#{REGISTRY_CRT}", destination: 'registry.crt'
+  config.vm.provision "shell", privileged: true,  inline: "cp registry.crt /etc/ssl/certs/registry.crt"
+  config.vm.provision "shell", privileged: true,  inline: $gen_etc_host
+
+  config.vm.provision "shell", path: "scripts/bootstrap.sh"
+
+  # Kubernetes Master Server
+  config.vm.define "master" do |node|
+
+    node.vm.box = "generic/ubuntu2004"
+    node.vm.box_check_update = false
+    node.vm.box_version = "3.1.12"
+    node.vm.hostname = "master.#{CLUSTER_DOMAIN}"
+    node.vm.network  "private_network", ip: "#{MASTER_IP}"
+
+    node.vm.provider :libvirt do |v|
+      v.memory = 4096
+      v.nested = true
+      v.cpus = 2
+    end
+    node.vm.provision "shell", path: "scripts/bootstrap_master.sh",
+      env: {
+        "MASTER_IP" => "#{MASTER_IP}",
+        "POD_NETWORK_CIDR" => "#{POD_NETWORK_CIDR}"
+      }
+  end
+
+
+  # Kubernetes Worker Nodes
+  NodeCount = 1
+  (1..NodeCount).each do |i|
+
+    config.vm.define "worker#{i}" do |node|
+
+      node.vm.box = "generic/ubuntu2004"
+      node.vm.box_check_update = false
+      node.vm.box_version = "3.1.12"
+      node.vm.hostname = "worker#{i}.#{CLUSTER_DOMAIN}"
+      node.vm.network "private_network", ip: "#{MACHINE_NETWORK}#{i}"
+
+      node.vm.provider :libvirt do |v|
+        v.memory = 4096
+        v.nested = true
+        v.cpus = 1
+      end
+      node.vm.provision "shell", path: "scripts/bootstrap_worker.sh",
+          env: {
+            "MASTER_IP" => "#{MASTER_IP}",
+          }
+    end
+  end
+
+  system("
+    if [ #{ARGV[0]} = 'up' ]; then
+        ./post-provision.sh
+    fi
+  ")
+end
