@@ -9,8 +9,7 @@ help:	## - Show help message
 start-registry:	## - start registry
 	@printf "\033[32m\xE2\x9c\x93 Starting Container Registry \033[0m"
 	@mkdir -p registry
-	@./make-cert-credential.sh ${REGISTRY}
-	@sudo podman run --privileged -d --name registry --net=host \
+	@sudo docker run --privileged -d --name registry --net=host \
 				-v "$(shell pwd)/auth":/certs:z \
 				-v "$(shell pwd)/registry":/var/lib/registry:z \
 				-v "$(shell pwd)/auth":/auth:z \
@@ -25,12 +24,12 @@ start-registry:	## - start registry
 stop-registry:	## - stop registry
 	@printf "\033[32m\xE2\x9c\x93 Stopping Container Registry \033[0m"
 	@mkdir -p registry
-	@sudo podman rm registry -f
+	@sudo docker rm registry -f
 
 .PHONY: list
 list:	## - list registry
-	@sudo podman ps | grep registry
+	@sudo docker ps | grep registry
 
 .PHONY: inspect
 inspect:	## - list registry
-	@sudo podman inspect registry
+	@sudo docker inspect registry
