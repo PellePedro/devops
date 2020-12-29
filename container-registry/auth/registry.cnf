@@ -1,0 +1,21 @@
+[req]
+distinguished_name = req_distinguished_name
+x509_extensions = v3_req
+prompt = no
+
+[req_distinguished_name]
+C = CA
+ST = Quebec
+L = Montreal
+O = Pepe
+CN = registry.pellep.io
+
+[v3_req]
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+basicConstraints = CA:TRUE
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = registry.pellep.io
+DNS.2 = localhost
