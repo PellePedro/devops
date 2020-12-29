@@ -1,0 +1,30 @@
+#!/bin/bash
+export DEBIAN_FRONTEND=noninteractive
+apt-get update  -y && apt-get install --no-install-recommends -y \
+ctags \
+curl \
+direnv \
+fzf \
+gcc \
+git \
+links \
+make \
+nodejs \
+npm \
+python3 \
+python3-dev \
+python3-pip \
+ripgrep \
+ruby \
+ruby-dev \
+rubygems \
+screen \
+shellcheck \
+sshpass \
+sudo \
+tree \
+tmux \
+unzip \
+vifm \
+wget \
+zsh \

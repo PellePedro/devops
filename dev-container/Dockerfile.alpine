@@ -1,0 +1,72 @@
+FROM alpine:edge as builder
+
+WORKDIR /
+
+RUN apk  add --no-cache \
+    git \
+    build-base \
+    cmake \
+    automake \
+    autoconf \
+    libtool \
+    pkgconf \
+    coreutils \
+    curl \
+    unzip \
+    tar \
+    rsync \
+    gettext-tiny-dev && \
+    git clone https://github.com/neovim/neovim.git && cd neovim && \
+    git tag -d nightly && \
+    git tag nightly && \
+    make CMAKE_BUILD_TYPE=RelWithDebInfo && \
+    make CMAKE_INSTALL_PREFIX=/build install
+
+# -------------------------------------------------------------------------------------------------
+
+FROM alpine:edge
+RUN apk add --update --no-cache \
+    bash \
+    git \
+    curl \
+    jq \
+    unzip \
+    tar \
+    rsync \
+    ripgrep \
+    fzf \
+    nmap \
+    libpcap \
+    musl \
+    darkhttpd \
+    tcpdump \
+    iperf3 \
+    openssh \
+    netcat-openbsd \
+    bind-tools \
+    nodejs \
+    python3 \
+    python3-dev \
+    py3-pip \
+    rust \
+    ruby \
+    ruby-dev \
+    go   \
+    vifm \
+    zsh  \
+    sudo \
+    && apk add arp-scan --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing
+
+RUN addgroup -g 1000 devops && \
+    adduser -D -u 1000 -h /home/devops -G devops devops && \
+    mkdir -p /etc/sudoers.d  && \
+    echo "devops  ALL=(ALL)  NOPASSWD:ALL" > /etc/sudoers.d/devops && \
+    chmod 0440 /etc/sudoers.d/devops
+
+COPY --from=builder /build/ /usr/local/
+
+USER devops
+COPY ./dotfiles /home/devops/.dotfiles
+
+RUN $HOME/.dotfiles/bootstrap.sh
+
