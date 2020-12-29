@@ -65,6 +65,7 @@ RUN addgroup -g 1000 devops && \
 
 COPY --from=builder /build/ /usr/local/
 
+WORKDIR /home/devops
 USER devops
 COPY ./dotfiles /home/devops/.dotfiles
 
