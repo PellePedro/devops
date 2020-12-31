@@ -15,12 +15,12 @@
 #########
 # Neovim nightly
 #########
-#curl -fLo /tmp/nvim-linux64.tar.gz https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
-#tar -xzf /tmp/nvim-linux64.tar.gz -C /tmp
-#mv /tmp/nvim-linux64/bin/nvim /usr/local/bin
-#mv /tmp/nvim-linux64/lib/* /usr/local/lib/
-#mv /tmp/nvim-linux64/share/nvim /usr/local/share
-#rm -rf /tmp/nvim-linux64*
+curl -fLo /tmp/nvim-linux64.tar.gz https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
+tar -xzf /tmp/nvim-linux64.tar.gz -C /tmp
+mv /tmp/nvim-linux64/bin/nvim /usr/local/bin
+mv /tmp/nvim-linux64/lib/* /usr/local/lib/
+mv /tmp/nvim-linux64/share/nvim /usr/local/share
+rm -rf /tmp/nvim-linux64*
 #########
 # JQ
 #########
