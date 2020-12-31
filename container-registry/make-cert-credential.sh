@@ -2,8 +2,8 @@
 
 set -ex
 
-registry_fqdn="registry.pellep.io"
 registry_fqdn=$1
+echo $registry_fqdn
 
 rm -rf auth && mkdir -p auth && pushd auth
 

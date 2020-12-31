@@ -32,3 +32,5 @@ USER devops
 COPY ./dotfiles /home/devops/.dotfiles
 
 RUN /home/devops/.dotfiles/bootstrap.sh
+
+CMD ["/bin/zsh"]

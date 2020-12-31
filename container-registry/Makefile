@@ -1,4 +1,5 @@
 REGISTRY := registry.pellep.io
+MASTER := master
 
 .PHONY: help
 help:	## - Show help message
@@ -19,6 +20,22 @@ start-registry:	## - start registry
 				-e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
 				-e REGISTRY_AUTH_HTPASSWD_REALM=Registry \
 				-p 5000:5000 --name registry --restart=always registry:2
+
+.PHONY: generate-credentials
+generate-credentials:	## - generate credentials
+	@printf "\033[32m\xE2\x9c\x93 Generate Certificate and Credentials \033[0m"
+	@rm -rf auth
+	@./make-cert-credential.sh ${REGISTRY}
+
+.PHONY: update-lxc-ca-trust
+update-lxc-ca-trust:	## - generate credentials
+	@printf "\033[32m\xE2\x9c\x93 Update lxc containers to trust registry ca \033[0m"
+	@./update-ca-trust.sh
+
+.PHONY: pull-lxc-kubeconfig
+pull-lxc-kubeconfig:	## - Pull kubeconfig from lxc master
+	@printf "\033[32m\xE2\x9c\x93 Pull kubeconfig from lxc master \033[0m"
+	@./pull-lxc-kubeconfig.sh ${MASTER}
 
 .PHONY: stop-registry
 stop-registry:	## - stop registry
