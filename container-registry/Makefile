@@ -28,9 +28,10 @@ generate-credentials:	## - generate credentials
 	@./make-cert-credential.sh ${REGISTRY}
 
 .PHONY: update-lxc-ca-trust
-update-lxc-ca-trust:	## - generate credentials
-	@printf "\033[32m\xE2\x9c\x93 Update lxc containers to trust registry ca \033[0m"
-	@./update-ca-trust.sh
+update-lxc-ca-trust:	## - Update containerd with registry credentials and tls-verify=falsw
+	@printf "\033[32m\xE2\x9c\x93 Update lxc containers with registry credentials \033[0m"
+	@./update-ca-containerd.sh
+
 
 .PHONY: pull-lxc-kubeconfig
 pull-lxc-kubeconfig:	## - Pull kubeconfig from lxc master
