@@ -10,17 +10,16 @@ set -ex
 OS=$(awk -F= '/^ID=/ {print $2}' /etc/os-release)
 
 # Install/update os distro packages
-cat os-packages/install-${OS}-packages | bash
+./scripts/install-${OS}-packages.sh
 
 # Install go
-cat app-releases/install-go-linux | bash
+./scripts/install-go-linux.sh
 
 # Install java jdk
-cat app-releases/install-jdk-linux | bash
-
+#cat app-releases/install-jdk-linux | bash
 
 # Install dev
-cat app-releases/install-dev-tools | bash
+./scripts/install-dev-tools.sh
 
 ################################################################################
 # End
