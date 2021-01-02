@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name:  toolbox
+  namespace: default
+  labels:
+    name: toolbox
+spec:
+  selector:
+    matchLabels:
+      name: toolbox
+  serviceName: "toolbox"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        name: toolbox
+    spec:
+      serviceAccountName: default
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - toolbox
+            topologyKey: kubernetes.io/hostname
+      containers:
+      - name: toolbox
+        image: registry.pellep.io:5000/toolbox:1.0.0
+        command:
+          - sleep
+          - "3600"
