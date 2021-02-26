@@ -1,4 +1,6 @@
 # vim:fdm=marker
+ZSH_DISABLE_COMPFIX="true"
+
 
 # vi key bindings
 bindkey -v
@@ -48,13 +50,15 @@ export DISABLE_AUTO_TITLE=true
 export GOPATH=${HOME}/go
 export GOBIN=${HOME}/bin
 export MYPATH=${GOBIN}:$HOME/.cargo/bin
-export os=$(grep '^ID' /etc/os-release | awk -F=  '{ print $2 }')
-if [[ "$os" == "alpine" ]]; then
-  export GOROOT=/usr/lib/go
-  export MYPATH=${MYPATH}:${GOROOT}/bin
-elif [[ "$os" == "fedora" && "$os" == "ubuntu" ]]; then
-  export GOROOT=/usr/local/go
-  export MYPATH=${MYPATH}:${GOROOT}/bin
+if [[ -f /etc/os-release ]]; then
+  export os=$(grep '^ID' /etc/os-release | awk -F=  '{ print $2 }')
+  if [[ "$os" == "alpine" ]]; then
+    export GOROOT=/usr/lib/go
+    export MYPATH=${MYPATH}:${GOROOT}/bin
+  elif [[ "$os" == "fedora" && "$os" == "ubuntu" ]]; then
+    export GOROOT=/usr/local/go
+    export MYPATH=${MYPATH}:${GOROOT}/bin
+  fi
 fi
 export PATH=${MYPATH}:${PATH}
 export GOSUMDB=off
