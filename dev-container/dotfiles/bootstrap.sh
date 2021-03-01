@@ -86,6 +86,7 @@ touch $HOME/.cache/nvim/vista.log
 
 # lazygit
 go get -u  github.com/jesseduffield/lazygit
+# go-vim
 go get -u github.com/kisielk/errcheck
 go get -u github.com/zmb3/gogetdoc
 go get -u golang.org/x/tools/cmd/goimports
@@ -95,6 +96,11 @@ go get -u github.com/alecthomas/gometalinter
 go get -u github.com/fatih/gomodifytags
 go get -u github.com/fatih/motion
 go get -u github.com/koron/iferr
+# grpc
+go get -u google.golang.org/grpc
+go get -u github.com/golang/protobuf/protoc-gen-go
+
+
 
 touch $HOME/.z
 zsh -c "source $HOME/.zshrc"
