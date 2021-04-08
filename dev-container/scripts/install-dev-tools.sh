@@ -15,12 +15,12 @@
 #########
 # Neovim nightly
 #########
-curl -fLo /tmp/nvim-linux64.tar.gz https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
-tar -xzf /tmp/nvim-linux64.tar.gz -C /tmp
-mv /tmp/nvim-linux64/bin/nvim /usr/local/bin
-mv /tmp/nvim-linux64/lib/* /usr/local/lib/
-mv /tmp/nvim-linux64/share/nvim /usr/local/share
-rm -rf /tmp/nvim-linux64*
+#curl -fLo /tmp/nvim-linux64.tar.gz https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
+#tar -xzf /tmp/nvim-linux64.tar.gz -C /tmp
+#mv /tmp/nvim-linux64/bin/nvim /usr/local/bin
+#mv /tmp/nvim-linux64/lib/* /usr/local/lib/
+#mv /tmp/nvim-linux64/share/nvim /usr/local/share
+#rm -rf /tmp/nvim-linux64*
 #########
 # JQ
 #########
@@ -30,19 +30,6 @@ curl -fsSL $JQ_DOWNLOAD_URL -o jq
 chmod 755 jq
 mv -f jq /usr/bin/jq
 
-
-#########
-# Gem
-#########
-gem install coderay
-
-#########
-# Language Servers
-#########
-npm i -g dockerfile-language-server-nodejs
-npm i -g bash-language-server
-npm i -g yaml-language-server
-npm i -g vscode-json-languageservice
 
 #########
 # k9s

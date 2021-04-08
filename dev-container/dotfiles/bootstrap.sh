@@ -65,10 +65,7 @@ pip3 install --user --upgrade yq
 #  nvim configuration
 nvimHome=${HOME}/.config/nvim
 [[ -d $nvimHome ]] && rm -rf $nvimHome
-git clone https://github.com/pellepedro/nvim.git $nvimHome
-
-echo "=== Installing Plugins ==="
-nvim -u "${HOME}"/.config/nvim/vim-plug/plugins.vim --headless -c PlugInstall -c UpdateRemotePlugins -c qa!
+git clone --single-branch --branch nvcode https://github.com/pellepedro/nvim.git $nvimHome
 
 #  tmux configuration
 [[ ! -d "${HOME}/.tmux" ]] && rm -rf $HOME/.tmux
@@ -84,18 +81,10 @@ fi
 mkdir -p $HOME/.cache/nvim/
 touch $HOME/.cache/nvim/vista.log
 
+# Delve
+go install github.com/go-delve/delve/cmd/dlv@latest
 # lazygit
-go get -u  github.com/jesseduffield/lazygit
-# go-vim
-go get -u github.com/kisielk/errcheck
-go get -u github.com/zmb3/gogetdoc
-go get -u golang.org/x/tools/cmd/goimports
-go get -u golang.org/x/lint/golint
-go get -u golang.org/x/tools/gopls
-go get -u github.com/alecthomas/gometalinter
-go get -u github.com/fatih/gomodifytags
-go get -u github.com/fatih/motion
-go get -u github.com/koron/iferr
+#go get -u  github.com/jesseduffield/lazygit
 # grpc
 go get -u google.golang.org/grpc
 go get -u github.com/golang/protobuf/protoc-gen-go
@@ -106,3 +95,4 @@ touch $HOME/.z
 zsh -c "source $HOME/.zshrc"
 
 echo "=== END of Configuration ==="
+

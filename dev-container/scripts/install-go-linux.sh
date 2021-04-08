@@ -2,7 +2,7 @@
 ###########
 # GoLang
 ###########
-GO_VERSION="1.15.5"
+GO_VERSION="1.16.3"
 GOLANG_TAR=linux-amd64.tar.gz
 GOLANG_DOWNLOAD_URL=https://dl.google.com/go/go${GO_VERSION}.${GOLANG_TAR}
 curl -fsSL "$GOLANG_DOWNLOAD_URL" -o golang.tar.gz
@@ -14,7 +14,7 @@ rm -rf ${GOLANG_TAR}
 ###########
 # GRPC
 ###########
-PROTOBUF_VERSION=3.14.0
+PROTOBUF_VERSION=3.15.7
 PROTOBUF_ZIP=protoc-${PROTOBUF_VERSION}-linux-x86_64.zip
 PROTOBUF_DOWNLOAD_URL=https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOBUF_VERSION}/${PROTOBUF_ZIP}
 curl -fsSL ${PROTOBUF_DOWNLOAD_URL} -o ${PROTOBUF_ZIP}

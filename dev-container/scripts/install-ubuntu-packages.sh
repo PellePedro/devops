@@ -1,6 +1,8 @@
 #!/bin/bash
 export DEBIAN_FRONTEND=noninteractive
 apt-get update  -y && apt-get install --no-install-recommends -y \
+build-essential \
+clang \
 ctags \
 curl \
 direnv \

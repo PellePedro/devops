@@ -15,7 +15,6 @@ antigen use oh-my-zsh
 antigen bundle z
 antigen bundle copydir
 antigen bundle colored-man-pages
-antigen bundle dnf
 antigen bundle golang
 antigen bundle cargo
 antigen bundle fzf
@@ -135,3 +134,4 @@ POWERLEVEL9K_IP_FOREGROUND='green'
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon context dir vcs)
 POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status command_execution_time time ip)
 # }}}
+export PATH=$HOME/.config/nvcode/utils/bin:$PATH
