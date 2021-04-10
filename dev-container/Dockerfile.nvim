@@ -4,5 +4,5 @@ RUN --mount=type=bind,source=scripts,target=/scripts \
      CMAKE_INSTALL_PREFIX=/build /scripts/build-nvim-linux.sh build
 
 FROM scratch as artifact
-COPY --from=-nvim-build /build /
+COPY --from=nvim-builder /build /
 

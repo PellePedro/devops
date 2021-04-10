@@ -8,13 +8,14 @@ set -ex
 #################################################################################
 
 OS=$(awk -F= '/^ID=/ {print $2}' /etc/os-release)
-BUILD=build
 
 # Removing Build directory
-rm -rf ${BUILD} || mkdir -p ${BUILD}
+rm -rf /usr/local/bin/nvim
+rm -rf /usr/local/lib/nvim
+rm -rf /usr/local/share/nvim
 
 # Build nvim nightly in container
-DOCKER_BUILDKIT=1 docker build --target=artifact --output type=local,dest=$(pwd)/${BUILD}/ -f Dockerfile.nvim  .
+DOCKER_BUILDKIT=1 docker build --target=artifact --output type=local,dest=/usr/local -f Dockerfile.nvim  .
 
 # Install/update os distro packages
 ./scripts/install-${OS}-packages.sh

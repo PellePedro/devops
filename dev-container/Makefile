@@ -8,10 +8,11 @@ help:	## - Show help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' Makefile | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 .PHONY: install-host
-install-host:	## - Install requred packages and dev tools on host
+install-host:	## - Install requred packages and nvim configyration
 	@printf "\033[32m\xE2\x9c\x93 Installing devtools on host \033[0m"
 	@sudo ./install-host.sh
-	@ ./install-host.sh
+	@rm -rf ~/.config/nvim ~/.local/share/nvim/
+	@./dotfiles/bootstrap.sh
 
 .PHONY: build-alpine-dev-container
 build-alpine-dev-container:	## - Build alpine development container
