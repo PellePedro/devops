@@ -49,13 +49,13 @@ done
 
 # Bootstrap zsh
 mkdir -p $HOME/.zsh
-ln -sf $DOTFILES_HOME/zsh/zshrc $HOME/.zshrc
+cp $DOTFILES_HOME/zsh/zshrc $HOME/.zshrc
 cp $DOTFILES_HOME/zsh/p10k.zsh $HOME/.p10k.zsh
 curl -fLo $HOME/.zsh/antigen.zsh --create-dirs https://git.io/antigen
 
 # Bootstrap vifm
-ln -sf $DOTFILES_HOME/vifm/vifmrc $HOME/.vifm/vifmrc
-ln -sf $DOTFILES_HOME/vifm/colors/nord.vifm $HOME/.vifm/colors/nord.vifm
+cp $DOTFILES_HOME/vifm/vifmrc $HOME/.vifm/vifmrc
+cp $DOTFILES_HOME/vifm/colors/nord.vifm $HOME/.vifm/colors/nord.vifm
 
 #  pip3 packages
 pip3 install --user --upgrade pynvim
@@ -79,16 +79,6 @@ if [[ "$(uname)" == "Linux" ]]; then
 fi
 
 mkdir -p $HOME/.cache/nvim/
-touch $HOME/.cache/nvim/vista.log
-
-# Delve
-go install github.com/go-delve/delve/cmd/dlv@latest
-# lazygit
-#go get -u  github.com/jesseduffield/lazygit
-# grpc
-go get -u google.golang.org/grpc
-go get -u github.com/golang/protobuf/protoc-gen-go
-
 
 
 touch $HOME/.z

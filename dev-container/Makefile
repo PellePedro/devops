@@ -10,8 +10,8 @@ help:	## - Show help message
 .PHONY: install-host
 install-host:	## - Install requred packages and dev tools on host
 	@printf "\033[32m\xE2\x9c\x93 Installing devtools on host \033[0m"
-	@sudo ./install-host-packages.sh
-	@ ./install-host-devtools.sh
+	@sudo ./install-host.sh
+	@ ./install-host.sh
 
 .PHONY: build-alpine-dev-container
 build-alpine-dev-container:	## - Build alpine development container
@@ -23,7 +23,7 @@ build-fedora-dev-container:	## - Build dev container based on Fedora
 	@printf "\033[32m\xE2\x9c\x93 Building Fedora Dev Container ${FEDORA_CONTAINER} \033[0m"
 	@DOCKER_BUILDKIT=1 docker build -f Dockerfile.fedora -t ${FEDORA_CONTAINER} .
 
-build-ubunntu-dev-container:	## - Build dev container based on Ubuntu
+build-ubuntu-dev-container:	## - Build dev container based on Ubuntu
 	@printf "\033[32m\xE2\x9c\x93 Building Ubuntu Dev Container ${UBUNTU_CONTAINER} \033[0m"
 	@DOCKER_BUILDKIT=1 docker build -f Dockerfile.ubuntu -t ${UBUNTU_CONTAINER} .
 

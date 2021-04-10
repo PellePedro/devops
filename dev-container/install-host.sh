@@ -8,6 +8,13 @@ set -ex
 #################################################################################
 
 OS=$(awk -F= '/^ID=/ {print $2}' /etc/os-release)
+BUILD=build
+
+# Removing Build directory
+rm -rf ${BUILD} || mkdir -p ${BUILD}
+
+# Build nvim nightly in container
+DOCKER_BUILDKIT=1 docker build --target=artifact --output type=local,dest=$(pwd)/${BUILD}/ -f Dockerfile.nvim  .
 
 # Install/update os distro packages
 ./scripts/install-${OS}-packages.sh
@@ -18,8 +25,6 @@ OS=$(awk -F= '/^ID=/ {print $2}' /etc/os-release)
 # Install java jdk
 #cat app-releases/install-jdk-linux | bash
 
-# Install dev
-./scripts/install-dev-tools.sh
 
 ################################################################################
 # End

@@ -2,6 +2,7 @@
 dnf update  -y && dnf install -y \
 curl \
 ctags \
+clang \
 direnv \
 fzf \
 gcc \

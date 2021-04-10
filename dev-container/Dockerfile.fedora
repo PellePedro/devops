@@ -2,23 +2,15 @@
 FROM ubuntu:20.04 as nvim-builder
 
 RUN --mount=type=bind,source=scripts,target=/scripts \
-    /scripts/install-nvim-linux-build-dep.sh
+     CMAKE_INSTALL_PREFIX=/build /scripts/build-nvim-linux.sh build
 
-RUN git clone https://github.com/neovim/neovim.git \
-	  && mkdir -p /local \
-	  && cd neovim \
-	  && git tag -d nightly \
-	  && git tag nightly \
-	  && make CMAKE_BUILD_TYPE=RelWithDebInfo \
-	  && make CMAKE_INSTALL_PREFIX=/local install
 
 FROM fedora:34
 
-COPY --from=nvim-builder /local/ /usr/local
+COPY --from=nvim-builder /build/ /usr/local
 
 RUN --mount=type=bind,source=scripts,target=/scripts \
     scripts/install-fedora-packages.sh && \
-    scripts/install-dev-tools.sh && \
     scripts/install-go-linux.sh && \
 	  groupadd -g 1000 devops && \
 	  useradd -u 1000 --create-home --gid devops devops && \
@@ -26,7 +18,14 @@ RUN --mount=type=bind,source=scripts,target=/scripts \
 
 
 WORKDIR /home/devops
+
+RUN chmod 777 /tmp
 USER devops
+ENV GOPATH /home/devops/go
+ENV GOBIN /home/devops/go/bin
 COPY ./dotfiles /home/devops/.dotfiles
 
 RUN /home/devops/.dotfiles/bootstrap.sh
+
+CMD ["/bin/zsh"]
+
