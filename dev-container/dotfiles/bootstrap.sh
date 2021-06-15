@@ -65,7 +65,7 @@ pip3 install --user --upgrade yq
 #  nvim configuration
 nvimHome=${HOME}/.config/nvim
 [[ -d $nvimHome ]] && rm -rf $nvimHome
-git clone --single-branch --branch nvcode https://github.com/pellepedro/nvim.git $nvimHome
+git clone  https://github.com/pellepedro/nvim.git $nvimHome
 
 #  tmux configuration
 [[ ! -d "${HOME}/.tmux" ]] && rm -rf $HOME/.tmux
