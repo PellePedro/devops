@@ -1,6 +1,7 @@
 FEDORA_CONTAINER := docker.pkg.github.com/pellepedro/devops/fedora-dev:latest
 UBUNTU_CONTAINER := docker.pkg.github.com/pellepedro/devops/ubuntu-dev:latest
 ALPINE_CONTAINER := docker.pkg.github.com/pellepedro/devops/alpine-dev:latest
+NVIM_CONTAINER := docker.io/pellepedro/neovim-build:latest
 
 .PHONY: help
 help:	## - Show help message
@@ -22,7 +23,7 @@ build-alpine-dev-container:	## - Build alpine development container
 .PHONY: build-fedora-dev-container
 build-fedora-dev-container:	## - Build dev container based on Fedora
 	@printf "\033[32m\xE2\x9c\x93 Building Fedora Dev Container ${FEDORA_CONTAINER} \033[0m"
-	@DOCKER_BUILDKIT=1 docker build -f Dockerfile.fedora -t ${FEDORA_CONTAINER} .
+	@DOCKER_BUILDKIT=1 docker build --no-cache -f Dockerfile.fedora -t ${FEDORA_CONTAINER} .
 
 build-ubuntu-dev-container:	## - Build dev container based on Ubuntu
 	@printf "\033[32m\xE2\x9c\x93 Building Ubuntu Dev Container ${UBUNTU_CONTAINER} \033[0m"
@@ -42,6 +43,14 @@ run-ubuntu-dev-container:	## - Run devenv container
 run-alpine-dev-container:	## - Run devenv container
 	@printf "\033[32m\xE2\x9c\x93 Running Alpine Development Container \033[0m\n"
 	@scripts/run-alpine-dev.sh
+
+
+.PHONY: build-push-neovim-head
+build-neovim-head:	## - Build and push container with neovim from latest head
+	@printf "\033[32m\xE2\x9c\x93 Building NVIM from latest head ${NVIM_CONTAINER} \033[0m"
+	@DOCKER_BUILDKIT=1 docker build --no-cache -f Dockerfile.nvim -t ${NVIM_CONTAINER} .
+	@printf "\033[32m\xE2\x9c\x93 Pushing ${NVIM_CONTAINER} \033[0m"
+	@docker push ${NVIM_CONTAINER}
 
 .PHONY: list-sample-repo
 list-sample-repo:	## - List sample repos to test LSP

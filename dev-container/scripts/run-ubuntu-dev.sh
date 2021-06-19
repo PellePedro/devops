@@ -1,7 +1,7 @@
 #/bin/bash
 
 CONTAINER=docker.pkg.github.com/pellepedro/devops/ubuntu-dev:latest
-docker run -it --rm --privileged --name dev \
+docker run -it --privileged --name dev \
     -v ${HOME}/.config/jesseduffield/lazygit:/home/devops/.config/lazygit:z \
     -v ${HOME}/.gitconfig:/home/devops/.gitconfig:z \
     -v ${HOME}/.netrc:/home/devops/.netrc:z \

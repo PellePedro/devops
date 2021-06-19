@@ -46,7 +46,6 @@ for directory in "${config_directories[@]}"; do
     [[ -d $directory ]] && rm -rf $directory && echo "removing $directory"
 done
 
-
 # Bootstrap zsh
 mkdir -p $HOME/.zsh
 cp $DOTFILES_HOME/zsh/zshrc $HOME/.zshrc
