@@ -59,7 +59,7 @@ if [[ -f /etc/os-release ]]; then
     export MYPATH=${MYPATH}:${GOROOT}/bin
   fi
 fi
-export PATH=${MYPATH}:${PATH}
+export PATH=${HOME}/bin:${PATH}
 export GOSUMDB=off
 # <-- Environment Variables }}}
 
@@ -92,6 +92,24 @@ alias gst='git status'
 # }}}
 
 # --> Functions {{{
+# 
+cv () {
+    mount_dir=$( cat ~/.projects | fzf)
+
+    CONTAINER=docker.io/pellepedro/nvim:latest
+    docker run -it --rm --privileged --name dev \
+        -w /home/devops/host \
+        -v ${HOME}/.config/jesseduffield/lazygit:/home/devops/.config/lazygit:z \
+        -v ${HOME}/.gitconfig:/home/devops/.gitconfig:z \
+        -v ${HOME}/.netrc:/home/devops/.netrc:z \
+        -v ${HOME}/.ssh:/home/devops/.ssh:z \
+        -v ${mount_dir}:/home/devops/host:Z \
+        -v ${HOME}/go/pkg/mod:/home/devops/go/pkg/mod:z \
+        ${CONTAINER} zsh
+
+}
+
+
 
 # fzf between local branches with commit previews z
 s () {

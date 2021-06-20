@@ -1,7 +1,7 @@
-FEDORA_CONTAINER := docker.pkg.github.com/pellepedro/devops/fedora-dev:latest
-UBUNTU_CONTAINER := docker.pkg.github.com/pellepedro/devops/ubuntu-dev:latest
-ALPINE_CONTAINER := docker.pkg.github.com/pellepedro/devops/alpine-dev:latest
-NVIM_CONTAINER := docker.io/pellepedro/neovim-build:latest
+FEDORA_CONTAINER := docker.io/pellepedro/fedora-dev:latest
+UBUNTU_CONTAINER := docker.io/pellepedro/ubuntu-dev:latest
+ALPINE_CONTAINER := docker.io/pellepedro/alpine-dev:latest
+NVIM_CONTAINER := docker.io/pellepedro/nvim:latest
 
 .PHONY: help
 help:	## - Show help message
@@ -28,6 +28,10 @@ build-fedora-dev-container:	## - Build dev container based on Fedora
 build-ubuntu-dev-container:	## - Build dev container based on Ubuntu
 	@printf "\033[32m\xE2\x9c\x93 Building Ubuntu Dev Container ${UBUNTU_CONTAINER} \033[0m"
 	@DOCKER_BUILDKIT=1 docker build -f Dockerfile.ubuntu -t ${UBUNTU_CONTAINER} .
+	@docker run -it --name ubuntu-dev ${UBUNTU_CONTAINER}
+	@docker commit ubuntu-dev ${NVIM_CONTAINER}
+	@docker rm ubuntu-dev
+	@docker push ${NVIM_CONTAINER}
 
 .PHONY: Run-fedora-dev-container
 run-fedora-dev-container:	## - Run devenv container

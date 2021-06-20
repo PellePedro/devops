@@ -85,3 +85,12 @@ zsh -c "source $HOME/.zshrc"
 
 echo "=== END of Configuration ==="
 
+mkdir -p $HOME/go/{src,bin} $HOME/bin
+export GOBIN=${HOME}/bin
+if [[ "$(uname)" == "Linux" ]]; then
+  export PATH=${PATH}:/usr/local/go/bin
+fi
+
+go install github.com/go-delve/delve/cmd/dlv@latest
+go get github.com/jesseduffield/lazygit
+
