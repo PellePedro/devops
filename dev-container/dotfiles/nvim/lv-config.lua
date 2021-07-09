@@ -112,7 +112,6 @@ end
 O.user_plugins = {
     {"ojroques/vim-oscyank"},
     {"christoomey/vim-tmux-navigator"},
-    {"justinmk/vim-dirvish"},
     {"ray-x/lsp_signature.nvim",
         config = function() require"lsp_signature".on_attach() end,
         event = "BufRead"
@@ -125,6 +124,48 @@ O.user_plugins = {
       requires = "nvim-lua/plenary.nvim",
       config = function() require("todo-comments").setup {} end
     },
+    {'tamago324/lir.nvim', requires = 'nvim-lua/plenary.nvim',
+        -- disable = true,
+        config = function()
+            local keyopts = {nowait = true, noremap = true, silent = true}
+            local actions = require'lir.actions'
+            local mark_actions = require 'lir.mark.actions'
+            local clipboard_actions = require'lir.clipboard.actions'
+            require'lir'.setup {
+                show_hidden_files = false,
+                devicons_enable = true,
+                mappings = {
+                    ['l']     = actions.edit,
+                    ['<Enter>'] = actions.edit,
+                    ['q'] = actions.quit,
+                    ['<Esc>'] = actions.quit,
+                    ['<C-s>'] = actions.split,
+                    ['<C-v>'] = actions.vsplit,
+                    ['<C-t>'] = actions.tabedit,
+                    ['h']     = actions.up,
+                    ['K']     = actions.mkdir,
+                    ['N']     = actions.newfile,
+                    ['R']     = actions.rename,
+                    ['Y']     = actions.yank_path,
+                    ['.']     = actions.toggle_show_hidden,
+                    ['D']     = actions.delete,
+                    ['J'] = function()
+                        mark_actions.toggle_mark()
+                        vim.cmd('normal! j')
+                    end,
+                    ['C'] = clipboard_actions.copy,
+                    ['X'] = clipboard_actions.cut,
+                    ['P'] = clipboard_actions.paste,
+                },
+            }
+        end}
+
+  -- ,
+  --   {'airblade/vim-rooter',
+  --         config = function()
+  --         vim.g["vim.g.rooter_silent_chdir"] = 1
+  --       end
+  --   }
 }
 
 
@@ -147,7 +188,9 @@ vim.api.nvim_set_keymap('n', '\\t',  [[\a<cmd>:ToggleTerm<CR>]], { noremap = tru
 vim.api.nvim_set_keymap('n', '\\ca', [[<cmd>lua vim.lsp.buf.code_action()<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '\\a', [[<C-^>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '\\l', [[<cmd>:set list!<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '\\d', [[<cmd>:lua require'lir.float'.toggle()<CR>]], { noremap = true, silent = true })
 
+-- List
 vim.cmd('set termguicolors')
 vim.cmd('set matchpairs=(:),{:},[:],<:>,`:`')
 vim.cmd('set listchars=tab:▶·,eol:¬,trail:⋅,extends:❯,precedes:❮')
@@ -162,4 +205,3 @@ vim.api.nvim_exec([[
   autocmd BufLeave term://* stopinsert
   autocmd TermClose term://* if (expand('<afile>') !~ "fzf") | call nvim_input('<CR>') | endif
 ]], false)
-
