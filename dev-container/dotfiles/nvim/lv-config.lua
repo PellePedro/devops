@@ -53,7 +53,11 @@ local function nvim_toggleterm_lua_config()
 end
 
 O.user_plugins = {
-    {"ojroques/vim-oscyank"},
+    {"ojroques/vim-oscyank",
+        config = function()
+          vim.g.oscyank_term = 'tmux'
+        end
+    },
     {"christoomey/vim-tmux-navigator"},
     {"ray-x/lsp_signature.nvim",
         config = function() require"lsp_signature".on_attach() end,
@@ -136,6 +140,10 @@ vim.api.nvim_set_keymap('n', '\\ca', [[<cmd>lua vim.lsp.buf.code_action()<CR>]],
 vim.api.nvim_set_keymap('n', '\\a', [[<C-^>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '\\l', [[<cmd>:set list!<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '\\d', [[<cmd>:lua require'lir.float'.toggle()<CR>]], { noremap = true, silent = true })
+
+-- Tab switch buffer
+vim.api.nvim_set_keymap("n", "<TAB>", ":bnext<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<S-TAB>", ":bprevious<CR>", { noremap = true, silent = true })
 
 -- List
 vim.cmd('set termguicolors')
