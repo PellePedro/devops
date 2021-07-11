@@ -9,7 +9,7 @@ an executable
 -- general
 
 O.format_on_save = true
-O.completion.autocomplete = true
+-- O.completion.autocomplete = true
 O.colorscheme = "spacegray"
 O.auto_close_tree = 0
 O.wrap_lines = true
@@ -70,6 +70,8 @@ O.user_plugins = {
     { 'folke/todo-comments.nvim',
       requires = "nvim-lua/plenary.nvim",
       config = function() require("todo-comments").setup {} end
+    },
+    { 'simrat39/symbols-outline.nvim',
     },
     {
       "folke/trouble.nvim",
