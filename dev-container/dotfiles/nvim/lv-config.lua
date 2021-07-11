@@ -20,6 +20,11 @@ O.smart_case = true
 
 O.document_highlight = true
 
+-- Plugins
+O.plugin.floatterm.active = true
+O.lang.rust.rust_tools.active = true
+O.plugin.ts_textobjects.active = true
+
 -- if you don't want all the parsers change this to a table of the ones you want
 O.treesitter.ensure_installed =  {"bash", "go" ,"lua", "python", "javascript", "rust"}
 O.treesitter.ignore_install = {"haskell"}
@@ -53,6 +58,8 @@ local function nvim_toggleterm_lua_config()
 end
 
 O.user_plugins = {
+    { 'tpope/vim-fugitive', },
+    { "kdheepak/lazygit.nvim", cmd = "LazyGit", },
     {"ojroques/vim-oscyank",
         config = function()
           vim.g.oscyank_term = 'tmux'
@@ -61,22 +68,15 @@ O.user_plugins = {
     {"christoomey/vim-tmux-navigator"},
     {"ray-x/lsp_signature.nvim",
         config = function() require"lsp_signature".on_attach() end,
-        event = "BufRead"
-    },
+        event = "BufRead" },
     { 'akinsho/nvim-toggleterm.lua',
       cmd = 'ToggleTerm',
-      config = nvim_toggleterm_lua_config,
-    },
+      config = nvim_toggleterm_lua_config, },
+    { "folke/trouble.nvim", cmd = "TroubleToggle" },
     { 'folke/todo-comments.nvim',
       requires = "nvim-lua/plenary.nvim",
-      config = function() require("todo-comments").setup {} end
-    },
-    { 'simrat39/symbols-outline.nvim',
-    },
-    {
-      "folke/trouble.nvim",
-      cmd = "TroubleToggle",
-    },
+      config = function() require("todo-comments").setup {} end },
+    { 'simrat39/symbols-outline.nvim', },
     {'tamago324/lir.nvim', requires = 'nvim-lua/plenary.nvim',
         -- disable = true,
         config = function()
@@ -113,35 +113,32 @@ O.user_plugins = {
             }
         end
      }
-  -- ,
-  --   {'airblade/vim-rooter',
-  --         config = function()
-  --         vim.g["vim.g.rooter_silent_chdir"] = 1
-  --       end
-  --   }
 }
 
-O.user_which_key["d"] = {
-     name = "Diagnostics",
-     t = { "<cmd>TroubleToggle<cr>", "trouble" },
-     w = { "<cmd>TroubleToggle lsp_workspace_diagnostics<cr>", "workspace" },
-     d = { "<cmd>TroubleToggle lsp_document_diagnostics<cr>", "document" },
-     q = { "<cmd>TroubleToggle quickfix<cr>", "quickfix" },
-     l = { "<cmd>TroubleToggle loclist<cr>", "loclist" },
-     r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
-     e = { "<cmd>:TodoQuickFix<cr>", "todo" },
+O.user_which_key = {
+     d = {
+       name = "Diagnostics",
+       t = { "<cmd>TroubleToggle<cr>", "trouble" },
+       w = { "<cmd>TroubleToggle lsp_workspace_diagnostics<cr>", "workspace" },
+       d = { "<cmd>TroubleToggle lsp_document_diagnostics<cr>", "document" },
+       q = { "<cmd>TroubleToggle quickfix<cr>", "quickfix" },
+       l = { "<cmd>TroubleToggle loclist<cr>", "loclist" },
+       r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
+       e = { "<cmd>TodoTelescope<cr>", "todo" },
+     },
 }
 
-vim.api.nvim_set_keymap('n', '\\1',  [[<cmd>:SymbolsOutline<CR>"]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '\\1',  [[<cmd>:SymbolsOutline<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '\\w',  [[<cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.expand("<cword>") })<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '\\s',  [[<cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '\\r',  [[<cmd>lua vim.lsp.buf.rename()<CR>]], { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '\\y',  [[<cmd>:OSCYank<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '\\y',  [[<cmd>:OSCYank<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '\\t',  [[<cmd>:TroubleToggle<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '\\ca', [[<cmd>lua vim.lsp.buf.code_action()<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '\\a', [[<C-^>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '\\l', [[<cmd>:set list!<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '\\d', [[<cmd>:lua require'lir.float'.toggle()<CR>]], { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '\\g', [[<cmd>:G<CR>]], { noremap = true, silent = true })
 
 -- Tab switch buffer
 vim.api.nvim_set_keymap("n", "<TAB>", ":bnext<CR>", { noremap = true, silent = true })
