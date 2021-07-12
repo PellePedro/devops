@@ -115,19 +115,59 @@ O.user_plugins = {
                 },
             }
         end
-     }
+     },
+    { 'sindrets/diffview.nvim',
+        config = function()
+
+          local cb = require'diffview.config'.diffview_callback
+          require'diffview'.setup {
+            diff_binaries = false,    -- Show diffs for binaries
+            file_panel = {
+              width = 35,
+              use_icons = true        -- Requires nvim-web-devicons
+            },
+            key_bindings = {
+              disable_defaults = false,                   -- Disable the default key bindings
+              -- The `view` bindings are active in the diff buffers, only when the current
+              -- tabpage is a Diffview.
+              view = {
+                ["<tab>"]     = cb("select_next_entry"),  -- Open the diff for the next file 
+                ["<s-tab>"]   = cb("select_prev_entry"),  -- Open the diff for the previous file
+                ["<leader>e"] = cb("focus_files"),        -- Bring focus to the files panel
+                ["<leader>b"] = cb("toggle_files"),       -- Toggle the files panel.
+              },
+              file_panel = {
+                ["j"]             = cb("next_entry"),         -- Bring the cursor to the next file entry
+                ["<down>"]        = cb("next_entry"),
+                ["k"]             = cb("prev_entry"),         -- Bring the cursor to the previous file entry.
+                ["<up>"]          = cb("prev_entry"),
+                ["<cr>"]          = cb("select_entry"),       -- Open the diff for the selected entry.
+                ["o"]             = cb("select_entry"),
+                ["<2-LeftMouse>"] = cb("select_entry"),
+                ["-"]             = cb("toggle_stage_entry"), -- Stage / unstage the selected entry.
+                ["S"]             = cb("stage_all"),          -- Stage all entries.
+                ["U"]             = cb("unstage_all"),        -- Unstage all entries.
+                ["R"]             = cb("refresh_files"),      -- Update stats and entries in the file list.
+                ["<tab>"]         = cb("select_next_entry"),
+                ["<s-tab>"]       = cb("select_prev_entry"),
+                ["<leader>e"]     = cb("focus_files"),
+                ["<leader>b"]     = cb("toggle_files"),
+              }
+            }
+          }
+    end
+    }
 }
 
 O.user_which_key = {
      d = {
-       name = "Diagnostics",
-       t = { "<cmd>TroubleToggle<cr>", "trouble" },
-       w = { "<cmd>TroubleToggle lsp_workspace_diagnostics<cr>", "workspace" },
-       d = { "<cmd>TroubleToggle lsp_document_diagnostics<cr>", "document" },
-       q = { "<cmd>TroubleToggle quickfix<cr>", "quickfix" },
-       l = { "<cmd>TroubleToggle loclist<cr>", "loclist" },
-       r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
-       e = { "<cmd>TodoTelescope<cr>", "todo" },
+       name = "Dev Tools",
+       d = { "<cmd>DiffviewOpen<cr>", "Diffview" },
+       t = { "<cmd>TroubleToggle<cr>", "Trouble" },
+       q = { "<cmd>TroubleToggle quickfix<cr>", "Quickfix" },
+       l = { "<cmd>TroubleToggle loclist<cr>", "Loclist" },
+       r = { "<cmd>TroubleToggle lsp_references<cr>", "References" },
+       e = { "<cmd>TodoTelescope<cr>", "Todo" },
      },
 }
 
