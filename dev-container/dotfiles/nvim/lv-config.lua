@@ -25,14 +25,10 @@ O.plugin.floatterm.active = true
 O.lang.rust.rust_tools.active = true
 O.plugin.ts_textobjects.active = true
 
--- if you don't want all the parsers change this to a table of the ones you want
 O.treesitter.ensure_installed =  {"bash", "go" ,"lua", "python", "javascript", "rust"}
 O.treesitter.ignore_install = {"haskell"}
 O.treesitter.highlight.enabled = true
 
-O.lang.clang.diagnostics.virtual_text = true
-O.lang.clang.diagnostics.signs = true
-O.lang.clang.diagnostics.underline = true
 
 O.lang.python.formatter = 'yapf'
 O.lang.python.isort = true
@@ -58,6 +54,7 @@ local function nvim_toggleterm_lua_config()
 end
 
 O.user_plugins = {
+    { 'tpope/vim-surround'},
     { 'tpope/vim-fugitive', },
     { "kdheepak/lazygit.nvim", cmd = "LazyGit", },
     {"ojroques/vim-oscyank",
@@ -143,6 +140,25 @@ vim.api.nvim_set_keymap('n', '\\g', [[<cmd>:G<CR>]], { noremap = true, silent = 
 -- Tab switch buffer
 vim.api.nvim_set_keymap("n", "<TAB>", ":bnext<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<S-TAB>", ":bprevious<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', ';', ':', {silent = false})
+
+vim.api.nvim_set_keymap('n', ';', ':', {noremap = true, silent = false})
+vim.api.nvim_set_keymap('v', ';', ':', {silent = false})
+
+vim.api.nvim_set_keymap('n', '<leader>`', 'ysiw`', {noremap = false, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>"', 'ysiw"', {noremap = false, silent = true})
+vim.api.nvim_set_keymap('n', "<leader>'", 'ysiw"', {noremap = false, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>(', 'ysiw)', {noremap = false, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>[', 'ysiw]', {noremap = false, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>{', 'ysiw}', {noremap = false, silent = true})
+vim.api.nvim_set_keymap('n', '<leader><', 'ysiw>', {noremap = false, silent = true})
+
+-- Normal mappings
+vim.api.nvim_set_keymap('n', '<C-H>', '<C-W><C-H>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<C-J>', '<C-W><C-J>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<C-K>', '<C-W><C-K>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<C-L>', '<C-W><C-L>', {noremap = true, silent = true})
+
 
 -- List
 vim.cmd('set termguicolors')
