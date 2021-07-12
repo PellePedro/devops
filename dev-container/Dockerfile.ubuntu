@@ -16,10 +16,12 @@ RUN --mount=type=bind,source=scripts,target=/scripts \
 	  usermod -a -G sudo devops && \
 	  echo "devops  ALL=(ALL)  NOPASSWD:ALL" > /etc/sudoers.d/devops
 
+ENV CONTAINER=docker
 
 WORKDIR /home/devops
 USER devops
 COPY ./dotfiles /home/devops/.dotfiles
+
 
 RUN /home/devops/.dotfiles/bootstrap.sh
 

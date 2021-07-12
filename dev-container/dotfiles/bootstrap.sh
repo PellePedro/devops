@@ -19,7 +19,7 @@ command -v realpath > /dev/null || realpath() {
 }
 DOTFILES_HOME="$(dirname "$(realpath $0)")"
 
-echo $DOTFILES_HOME
+echo "$DOTFILES_HOME"
 
 echo "=== START of Configuration ==="
 
@@ -27,11 +27,11 @@ mkdir -p $HOME/.vifm/colors
 mkdir -p $HOME/.config
 
 config_files=(
-${HOME}/.zshrc
-${HOME}/.tmux.conf
-${HOME}/.p10k.zsh
-${HOME}/.vifm/vifmrc
-${HOME}/.vifm/colors/nord.vifm
+"${HOME}"/.zshrc
+"${HOME}"/.tmux.conf
+"${HOME}"/.p10k.zsh
+"${HOME}"/.vifm/vifmrc
+"${HOME}"/.vifm/colors/nord.vifm
 )
 for file in "${config_files[@]}"; do
     [[ -f $file ]] || [[ -L $file ]] && rm -f $file && echo "removing $file"
@@ -63,21 +63,29 @@ pip3 install --user --upgrade yq
 
 #  nvim configuration
 nvimHome=${HOME}/.config/nvim
-[[ -d $nvimHome ]] && rm -rf $nvimHome
-git clone  https://github.com/pellepedro/nvim.git $nvimHome
+[[ -d $nvimHome ]] && rm -rf "$nvimHome"
+git clone --depth 1 --branch rolling  https://github.com/pellepedro/LunarVim.git "$nvimHome"
+if [[ -v CONTAINER ]]; then
+  rsync "$DOTFILES_HOME"/nvim/lv-config.lua "$HOME"/.config/nvim/lv-config.lua
+  rsync "$DOTFILES_HOME"/nvim/ftplugin/go.lua "$HOME"/.config/nvim/ftplugin/go.lua
+else
+  ln -s "$DOTFILES_HOME"/nvim/lv-config.lua "$HOME"/.config/nvim/lv-config.lua
+  ln -s "$DOTFILES_HOME"/nvim/ftplugin/go.lua "$HOME"/.config/nvim/ftplugin/go.lua
+fi
+
 
 #  tmux configuration
-[[ ! -d "${HOME}/.tmux" ]] && rm -rf $HOME/.tmux
-git clone --recurse https://github.com/pellepedro/tmux.git $HOME/.tmux
-cp ${HOME}/.tmux/.tmux.conf $HOME
+[[ ! -d "${HOME}/.tmux" ]] && rm -rf "$HOME"/.tmux
+git clone --recurse https://github.com/pellepedro/tmux.git "$HOME/.tmux"
+cp "${HOME}/.tmux/.tmux.conf" "$HOME"
 
-mkdir -p $HOME/go/{src,bin}
+mkdir -p "$HOME"/go/{src,bin}
 export GOBIN=${HOME}/bin
 if [[ "$(uname)" == "Linux" ]]; then
   export PATH=${PATH}:/usr/local/go/bin
 fi
 
-mkdir -p $HOME/.cache/nvim/
+mkdir -p "$HOME"/.cache/nvim/
 
 
 touch $HOME/.z
@@ -91,6 +99,7 @@ if [[ "$(uname)" == "Linux" ]]; then
   export PATH=${PATH}:/usr/local/go/bin
 fi
 
+go get golang.org/x/tools/cmd/goimports
 go install github.com/go-delve/delve/cmd/dlv@latest
 go get github.com/jesseduffield/lazygit
 

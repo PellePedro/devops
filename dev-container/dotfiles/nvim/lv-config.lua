@@ -9,7 +9,7 @@ an executable
 -- general
 
 O.format_on_save = true
--- O.completion.autocomplete = true
+O.completion.autocomplete = true
 O.colorscheme = "spacegray"
 O.auto_close_tree = 0
 O.wrap_lines = true
@@ -21,12 +21,18 @@ O.smart_case = true
 O.document_highlight = true
 
 -- Plugins
-O.plugin.floatterm.active = true
+-- O.plugin.floatterm.active = true
 O.lang.rust.rust_tools.active = true
 O.plugin.ts_textobjects.active = true
 
+-- O.lang.formatter.go.exe = "goimports"
+-- O.lang.rust.formatter = {
+--   exe = "rustfmt",
+--   args = {"--emit=stdout", "--edition=2018"},
+-- }
+
+O.lang.sh.linter = "shellcheck"
 O.treesitter.ensure_installed =  {"bash", "go" ,"lua", "python", "javascript", "rust"}
-O.treesitter.ignore_install = {"haskell"}
 O.treesitter.highlight.enabled = true
 
 
@@ -41,9 +47,9 @@ O.lang.python.analysis.auto_search_paths = true
 O.lang.python.analysis.use_library_code_types = true
 
 
-O.lang.lua.formatter = 'lua-format'
-O.lang.lua.autoformat = false
-
+-- O.lang.lua.formatter = 'lua-format'
+-- O.lang.lua.autoformat = false
+-- O.lang.rust.rust_tools.active = true
 
 local function nvim_toggleterm_lua_config()
   require'toggleterm'.setup{

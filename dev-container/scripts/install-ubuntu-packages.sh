@@ -20,6 +20,7 @@ ripgrep \
 ruby \
 ruby-dev \
 rubygems \
+rsync \
 screen \
 shellcheck \
 sshpass \
