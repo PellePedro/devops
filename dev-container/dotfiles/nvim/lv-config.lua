@@ -71,7 +71,7 @@ O.user_plugins = {
     {"christoomey/vim-tmux-navigator"},
     {"ray-x/lsp_signature.nvim",
         config = function() require"lsp_signature".on_attach() end,
-        event = "BufRead" },
+        event = "InsertEnter" },
     { 'akinsho/nvim-toggleterm.lua',
       cmd = 'ToggleTerm',
       config = nvim_toggleterm_lua_config, },
