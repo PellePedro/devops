@@ -143,13 +143,14 @@ vim.api.nvim_set_keymap('n', '\\l', [[<cmd>:set list!<CR>]], { noremap = true, s
 vim.api.nvim_set_keymap('n', '\\d', [[<cmd>:lua require'lir.float'.toggle()<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '\\g', [[<cmd>:G<CR>]], { noremap = true, silent = true })
 
+ 
 -- Tab switch buffer
 vim.api.nvim_set_keymap("n", "<TAB>", ":bnext<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<S-TAB>", ":bprevious<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', ';', ':', {silent = false})
 
 vim.api.nvim_set_keymap('n', ';', ':', {noremap = true, silent = false})
 vim.api.nvim_set_keymap('v', ';', ':', {silent = false})
+vim.api.nvim_set_keymap('v', 'gy', ':OSCYank<cr>', {silent = false})
 
 vim.api.nvim_set_keymap('n', '<leader>`', 'ysiw`', {noremap = false, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>"', 'ysiw"', {noremap = false, silent = true})
@@ -179,5 +180,6 @@ vim.api.nvim_exec([[
   autocmd TermOpen * setlocal nonumber norelativenumber
   autocmd TermOpen * if &buftype ==# 'terminal' | startinsert | endif
   autocmd BufLeave term://* stopinsert
-  autocmd TermClose term://* if (expand('<afile>') !~ "fzf") | call nvim_input('<CR>') | endif
+  autocmd TermClose term://* if (expand('<afile>') !~ "fzf") | call gnvim_input('<CRr>') | endif
 ]], false)
+
