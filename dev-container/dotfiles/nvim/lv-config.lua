@@ -23,7 +23,7 @@ O.document_highlight = true
 -- Plugins
 -- O.plugin.floatterm.active = true
 O.lang.rust.rust_tools.active = true
-O.plugin.ts_textobjects.active = true
+-- O.plugin.ts_textobjects.active = true
 
 -- O.lang.formatter.go.exe = "goimports"
 -- O.lang.rust.formatter = {
@@ -160,6 +160,7 @@ O.user_plugins = {
 }
 
 O.user_which_key = {
+     o = {"<cmd>SymbolsOutline<cr>", "SymbolsOutline" },
      d = {
        name = "Dev Tools",
        d = { "<cmd>DiffviewOpen<cr>", "Diffview" },
@@ -170,7 +171,7 @@ O.user_which_key = {
        e = { "<cmd>TodoTelescope<cr>", "Todo" },
      },
 }
-
+-- '\'  mapping
 vim.api.nvim_set_keymap('n', '\\1',  [[<cmd>:SymbolsOutline<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '\\w',  [[<cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.expand("<cword>") })<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '\\s',  [[<cmd>lua require('telescope.builtin').grep_string({ search = vim.fn.input("Grep For > ")})<CR>]], { noremap = true, silent = true })
@@ -183,6 +184,8 @@ vim.api.nvim_set_keymap('n', '\\l', [[<cmd>:set list!<CR>]], { noremap = true, s
 vim.api.nvim_set_keymap('n', '\\d', [[<cmd>:lua require'lir.float'.toggle()<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '\\g', [[<cmd>:G<CR>]], { noremap = true, silent = true })
 
+-- g mapping
+vim.api.nvim_set_keymap('v', 'gy', ':OSCYank<cr>', {silent = false})
  
 -- Tab switch buffer
 vim.api.nvim_set_keymap("n", "<TAB>", ":bnext<CR>", { noremap = true, silent = true })
@@ -190,15 +193,14 @@ vim.api.nvim_set_keymap("n", "<S-TAB>", ":bprevious<CR>", { noremap = true, sile
 
 vim.api.nvim_set_keymap('n', ';', ':', {noremap = true, silent = false})
 vim.api.nvim_set_keymap('v', ';', ':', {silent = false})
-vim.api.nvim_set_keymap('v', 'gy', ':OSCYank<cr>', {silent = false})
 
-vim.api.nvim_set_keymap('n', '<leader>`', 'ysiw`', {noremap = false, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>"', 'ysiw"', {noremap = false, silent = true})
-vim.api.nvim_set_keymap('n', "<leader>'", 'ysiw"', {noremap = false, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>(', 'ysiw)', {noremap = false, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>[', 'ysiw]', {noremap = false, silent = true})
-vim.api.nvim_set_keymap('n', '<leader>{', 'ysiw}', {noremap = false, silent = true})
-vim.api.nvim_set_keymap('n', '<leader><', 'ysiw>', {noremap = false, silent = true})
+vim.api.nvim_set_keymap('n', '\\`', 'ysiw`', {noremap = false, silent = true})
+vim.api.nvim_set_keymap('n', '\\"', 'ysiw"', {noremap = false, silent = true})
+vim.api.nvim_set_keymap('n', "\\'", 'ysiw"', {noremap = false, silent = true})
+vim.api.nvim_set_keymap('n', '\\)', 'ysiw)', {noremap = false, silent = true})
+vim.api.nvim_set_keymap('n', '\\]', 'ysiw]', {noremap = false, silent = true})
+vim.api.nvim_set_keymap('n', '\\}', 'ysiw}', {noremap = false, silent = true})
+vim.api.nvim_set_keymap('n', '\\>', 'ysiw>', {noremap = false, silent = true})
 
 -- Normal mappings
 vim.api.nvim_set_keymap('n', '<C-H>', '<C-W><C-H>', {noremap = true, silent = true})
