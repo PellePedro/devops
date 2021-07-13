@@ -4,13 +4,14 @@ FROM ubuntu:20.04 as nvim-builder
 RUN --mount=type=bind,source=scripts,target=/scripts \
      CMAKE_INSTALL_PREFIX=/build /scripts/build-nvim-linux.sh build
 
-FROM ubuntu:20.04
+FROM ubuntu:20.10
 
 COPY --from=nvim-builder /build/ /usr/local
 
 RUN --mount=type=bind,source=scripts,target=/scripts \
     scripts/install-ubuntu-packages.sh && \
     scripts/install-go-linux.sh && \
+    scripts/install-devops-ubuntu.sh && \
 	  groupadd -g 1000 devops && \
 	  useradd -u 1000 --create-home --gid devops devops && \
 	  usermod -a -G sudo devops && \

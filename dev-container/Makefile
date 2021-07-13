@@ -13,17 +13,14 @@ install-host:	## - Install requred packages and nvim configyration
 	@rm -rf ~/.config/nvim ~/.local/share/nvim/
 	@./dotfiles/bootstrap.sh
 
-build-ubuntu-dev-container:	## - Build dev container based on Ubuntu
+build-dev-container:	## - Build dev container based on Ubuntu
 	@printf "\033[32m\xE2\x9c\x93 Building Ubuntu Dev Container ${UBUNTU_CONTAINER} \033[0m"
 	@DOCKER_BUILDKIT=1 docker build -f Dockerfile.ubuntu -t ${UBUNTU_CONTAINER} .
 	@docker run -it --name ubuntu-dev ${UBUNTU_CONTAINER}
 	@docker commit ubuntu-dev ${NVIM_CONTAINER}
 	@docker rm ubuntu-dev
-	@docker push ${NVIM_CONTAINER}
+#	@docker push ${NVIM_CONTAINER}
 
-.PHONY: build-push-neovim-head
-build-neovim-head:	## - Build and push container with neovim from latest head
-	@printf "\033[32m\xE2\x9c\x93 Building NVIM from latest head ${NVIM_CONTAINER} \033[0m"
-	@DOCKER_BUILDKIT=1 docker build --no-cache -f Dockerfile.nvim -t ${NVIM_CONTAINER} .
-	@printf "\033[32m\xE2\x9c\x93 Pushing ${NVIM_CONTAINER} \033[0m"
+.PHONY: push
+push:	## - Build and push container with neovim from latest head
 	@docker push ${NVIM_CONTAINER}

@@ -13,33 +13,11 @@
 # ln -sf /usr/local/nvim/bin/nvim /usr/local/bin
 
 #########
-# Neovim nightly
-#########
-#curl -fLo /tmp/nvim-linux64.tar.gz https://github.com/neovim/neovim/releases/download/nightly/nvim-linux64.tar.gz
-#tar -xzf /tmp/nvim-linux64.tar.gz -C /tmp
-#mv /tmp/nvim-linux64/bin/nvim /usr/local/bin
-#mv /tmp/nvim-linux64/lib/* /usr/local/lib/
-#mv /tmp/nvim-linux64/share/nvim /usr/local/share
-#rm -rf /tmp/nvim-linux64*
-#########
-# JQ
-#########
-JQ_VERSION="1.6"
-JQ_DOWNLOAD_URL=https://github.com/stedolan/jq/releases/download/jq-${JQ_VERSION}/jq-linux64
-curl -fsSL $JQ_DOWNLOAD_URL -o jq
-chmod 755 jq
-mv -f jq /usr/bin/jq
-
-
-#########
 # k9s
 #########
-#
-# {{{ command line dashboard for kubernetes
-curl -L -o /tmp/k9s.tar.gz \
- 	https://github.com/derailed/k9s/releases/download/v0.21.7/k9s_Linux_x86_64.tar.gz
-mkdir -p /tmp/k9s
-tar xvf /tmp/k9s.tar.gz -C /tmp/k9s
-mv /tmp/k9s/k9s /usr/local/bin
-rm -rf /tmp/k9s
-# }}}
+# https://github.com/derailed/k9s/releases/download/v0.24.14/k9s_Linux_x86_64.tar.gz
+
+export K9S_VERSION=v0.24.14
+curl -Lo - https://github.com/derailed/k9s/releases/download/"${K9S_VERSION}"/k9s_Linux_x86_64.tar.gz \
+  | tar -xz -C /usr/bin/  && \
+  chmod +x /usr/bin/k9s

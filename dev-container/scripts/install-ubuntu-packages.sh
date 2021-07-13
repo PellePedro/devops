@@ -3,16 +3,20 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update  -y && apt-get install --no-install-recommends -y \
 build-essential \
 clang \
-ctags \
 curl \
+exuberant-ctags \
 direnv \
+file \
 fzf \
 gcc \
 git \
+jq \
 links \
 make \
+iproute2 \
 nodejs \
 npm \
+openssh-client \
 python3 \
 python3-dev \
 python3-pip \
@@ -21,13 +25,16 @@ ruby \
 ruby-dev \
 rubygems \
 rsync \
-screen \
+socat \
 shellcheck \
 sshpass \
 sudo \
+strace \
+tcpdump \
 tree \
 tmux \
 unzip \
 vifm \
 wget \
 zsh \
+
