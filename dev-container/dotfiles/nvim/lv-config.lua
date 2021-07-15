@@ -53,6 +53,7 @@ local function nvim_toggleterm_lua_config()
 end
 
 O.user_plugins = {
+    {'ekalinin/Dockerfile.vim'},
     {"christoomey/vim-tmux-navigator"},
     { 'tpope/vim-surround'},
     { 'tpope/vim-fugitive', },
@@ -155,6 +156,7 @@ O.user_plugins = {
   }
 }
 
+O.plugin.which_key.mappings["t"] = { "<cmd>ToggleTerm<CR>", "Terminal" }
 O.user_which_key = {
      o = {"<cmd>SymbolsOutline<cr>", "SymbolsOutline" },
      d = {
@@ -212,17 +214,18 @@ vim.cmd('set termguicolors')
 vim.cmd('set matchpairs=(:),{:},[:],<:>,`:`')
 vim.cmd('set listchars=tab:▶·,eol:¬,trail:⋅,extends:❯,precedes:❮')
 vim.cmd('set showbreak=↪')
-vim.cmd('set list')
-
+vim.cmd('set nolist')
+vim.cmd('set rnu')
 
 vim.api.nvim_exec([[
   autocmd BufReadPost * if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit' |   exe "normal! g`\"" | endif
-  autocmd TermOpen * setlocal nonumber norelativenumber
-  autocmd TermOpen * if &buftype ==# 'terminal' | startinsert | endif
-  autocmd BufLeave term://* stopinsert
 ]], false)
 
-
+-- autocmd TermOpen * setlocal nonumber norelativenumber
+-- autocmd TermOpen * if &buftype ==# 'terminal' | startinsert | endif
+-- autocmd BufLeave term://* stopinsert
+-- autocmd InsertEnter * :set norelativenumber
+-- autocmd InsertLeave * :set relativenumber 
 -- O.default_options.clipboard = "unnamed"
 -- <leader>y and <leader>p
 -- O.user_which_key = {
