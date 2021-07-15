@@ -38,9 +38,13 @@ for file in "${config_files[@]}"; do
 done
 
 config_directories=(
-${HOME}/.zsh
-${HOME}/.antigen
-${HOME}/.tmux
+"${HOME}/.zsh"
+"${HOME}/.antigen"
+"${HOME}/.tmux"
+"${HOME}/.config/nvim"
+"${HOME}/.tmux"
+"${HOME}/.cache"
+"$HOME/.local/share/nvim/site/pack/packer"
 )
 for directory in "${config_directories[@]}"; do
     [[ -d $directory ]] && rm -rf $directory && echo "removing $directory"
@@ -61,18 +65,16 @@ pip3 install --user --upgrade pynvim
 pip3 install --user --upgrade pytest
 pip3 install --user --upgrade yq
 
-#  nvim configuration
+#  Lunarvim configuration
+git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 nvimHome=${HOME}/.config/nvim
-[[ -d $nvimHome ]] && rm -rf "$nvimHome"
+
 git clone --depth 1 --branch rolling  https://github.com/pellepedro/LunarVim.git "$nvimHome"
 if [[ -v CONTAINER ]]; then
   rsync "$DOTFILES_HOME"/nvim/lv-config.lua "$HOME"/.config/nvim/lv-config.lua
-  rsync "$DOTFILES_HOME"/nvim/ftplugin/go.lua "$HOME"/.config/nvim/ftplugin/go.lua
 else
   ln -s "$DOTFILES_HOME"/nvim/lv-config.lua "$HOME"/.config/nvim/lv-config.lua
-  ln -s "$DOTFILES_HOME"/nvim/ftplugin/go.lua "$HOME"/.config/nvim/ftplugin/go.lua
 fi
-
 
 #  tmux configuration
 [[ ! -d "${HOME}/.tmux" ]] && rm -rf "$HOME"/.tmux
@@ -102,4 +104,4 @@ fi
 go get golang.org/x/tools/cmd/goimports
 go install github.com/go-delve/delve/cmd/dlv@latest
 go get github.com/jesseduffield/lazygit
-
+go get github.com/jesseduffield/lazydocker

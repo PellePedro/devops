@@ -21,3 +21,6 @@ export K9S_VERSION=v0.24.14
 curl -Lo - https://github.com/derailed/k9s/releases/download/"${K9S_VERSION}"/k9s_Linux_x86_64.tar.gz \
   | tar -xz -C /usr/bin/  && \
   chmod +x /usr/bin/k9s
+
+
+
