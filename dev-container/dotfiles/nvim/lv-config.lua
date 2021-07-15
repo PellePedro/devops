@@ -1,13 +1,3 @@
---[[
-O is the global options object
-
-ormatters and linters should be
-filled in as strings with either
-a global executable or a path to
-an executable
-]] -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
--- general
-
 O.format_on_save = true
 O.completion.autocomplete = true
 O.colorscheme = "spacegray"
@@ -21,11 +11,14 @@ O.smart_case = true
 O.document_highlight = true
 
 -- Plugins
--- O.plugin.floatterm.active = true
+O.plugin.terminal.active = true
 O.lang.rust.rust_tools.active = true
+O.plugin.dashboard.active = true
+O.plugin.galaxyline.active = true
 -- O.plugin.ts_textobjects.active = true
 
--- O.lang.formatter.go.exe = "goimports"
+
+O.lang.go.formatter.exe = "goimports"
 -- O.lang.rust.formatter = {
 --   exe = "rustfmt",
 --   args = {"--emit=stdout", "--edition=2018"},
@@ -47,9 +40,9 @@ O.lang.python.analysis.auto_search_paths = true
 O.lang.python.analysis.use_library_code_types = true
 
 
--- O.lang.lua.formatter = 'lua-format'
--- O.lang.lua.autoformat = false
--- O.lang.rust.rust_tools.active = true
+O.lang.lua.formatter = 'lua-format'
+O.lang.lua.autoformat = false
+O.lang.rust.rust_tools.active = true
 
 local function nvim_toggleterm_lua_config()
   require'toggleterm'.setup{
@@ -60,6 +53,7 @@ local function nvim_toggleterm_lua_config()
 end
 
 O.user_plugins = {
+    {"christoomey/vim-tmux-navigator"},
     { 'tpope/vim-surround'},
     { 'tpope/vim-fugitive', },
     { "kdheepak/lazygit.nvim", cmd = "LazyGit", },
@@ -68,13 +62,9 @@ O.user_plugins = {
           vim.g.oscyank_term = 'tmux'
         end
     },
-    {"christoomey/vim-tmux-navigator"},
     {"ray-x/lsp_signature.nvim",
         config = function() require"lsp_signature".on_attach() end,
         event = "InsertEnter" },
-    { 'akinsho/nvim-toggleterm.lua',
-      cmd = 'ToggleTerm',
-      config = nvim_toggleterm_lua_config, },
     { "folke/trouble.nvim", cmd = "TroubleToggle" },
     { 'folke/todo-comments.nvim',
       requires = "nvim-lua/plenary.nvim",
@@ -156,7 +146,13 @@ O.user_plugins = {
             }
           }
     end
-    }
+    },
+    { "folke/twilight.nvim",
+      config = function()
+        require("twilight").setup {
+        }
+        end
+  }
 }
 
 O.user_which_key = {
@@ -169,7 +165,7 @@ O.user_which_key = {
        l = { "<cmd>TroubleToggle loclist<cr>", "Loclist" },
        r = { "<cmd>TroubleToggle lsp_references<cr>", "References" },
        e = { "<cmd>TodoTelescope<cr>", "Todo" },
-     },
+     }
 }
 -- '\'  mapping
 vim.api.nvim_set_keymap('n', '\\1',  [[<cmd>:SymbolsOutline<CR>]], { noremap = true, silent = true })
@@ -184,6 +180,8 @@ vim.api.nvim_set_keymap('n', '\\l', [[<cmd>:set list!<CR>]], { noremap = true, s
 vim.api.nvim_set_keymap('n', '\\d', [[<cmd>:lua require'lir.float'.toggle()<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '\\g', [[<cmd>:G<CR>]], { noremap = true, silent = true })
 
+O.plugin.which_key.vmappings["gg"] = "OSCYank"
+O.plugin.which_key.vmappings["\\r"] = "Rename"
 -- g mapping
 vim.api.nvim_set_keymap('v', 'gy', ':OSCYank<cr>', {silent = false})
  
@@ -222,6 +220,12 @@ vim.api.nvim_exec([[
   autocmd TermOpen * setlocal nonumber norelativenumber
   autocmd TermOpen * if &buftype ==# 'terminal' | startinsert | endif
   autocmd BufLeave term://* stopinsert
-  autocmd TermClose term://* if (expand('<afile>') !~ "fzf") | call gnvim_input('<CRr>') | endif
 ]], false)
 
+
+-- O.default_options.clipboard = "unnamed"
+-- <leader>y and <leader>p
+-- O.user_which_key = {
+--   y = {'"+y', "Yank"},
+--  p = {'"+p', "Paste"},
+-- }
