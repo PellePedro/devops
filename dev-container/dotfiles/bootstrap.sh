@@ -66,7 +66,6 @@ pip3 install --user --upgrade pytest
 pip3 install --user --upgrade yq
 
 #  Lunarvim configuration
-git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 nvimHome=${HOME}/.config/nvim
 
 git clone --depth 1 --branch rolling  https://github.com/pellepedro/LunarVim.git "$nvimHome"
