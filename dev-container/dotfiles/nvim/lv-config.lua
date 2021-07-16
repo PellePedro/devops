@@ -53,7 +53,7 @@ local function nvim_toggleterm_lua_config()
 end
 
 O.user_plugins = {
-    {'ekalinin/Dockerfile.vim'},
+    { 'ekalinin/Dockerfile.vim'},
     {"christoomey/vim-tmux-navigator"},
     { 'tpope/vim-surround'},
     { 'tpope/vim-fugitive', },
@@ -89,13 +89,13 @@ O.user_plugins = {
                     ['<C-s>'] = actions.split,
                     ['<C-v>'] = actions.vsplit,
                     ['<C-t>'] = actions.tabedit,
-                    ['h']     = actions.up,
-                    ['K']     = actions.mkdir,
-                    ['N']     = actions.newfile,
-                    ['R']     = actions.rename,
+                    ['-']     = actions.up,
+                    ['A']     = actions.mkdir,
+                    ['a']     = actions.newfile,
+                    ['r']     = actions.rename,
                     ['Y']     = actions.yank_path,
                     ['.']     = actions.toggle_show_hidden,
-                    ['D']     = actions.delete,
+                    ['d']     = actions.delete,
                     ['J'] = function()
                         mark_actions.toggle_mark()
                         vim.cmd('normal! j')
