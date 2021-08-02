@@ -1,5 +1,5 @@
 UBUNTU_CONTAINER := docker.io/pellepedro/ubuntu-dev:latest
-NVIM_CONTAINER := docker.io/pellepedro/nvim:latest
+NVIM_CONTAINER := docker.io/pellepedro/lvim:latest
 
 .PHONY: help
 help:	## - Show help message

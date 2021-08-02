@@ -1,6 +1,6 @@
 #/bin/bash
 
-CONTAINER=docker.io/pellepedro/nvim:latest
+CONTAINER=docker.io/pellepedro/lvim:latest
 PROJ=$( cat ~/projects | fzf )
 docker run -it --rm --privileged \
     -v $(readlink -f /var/run/docker.sock):/var/run/docker.sock \
