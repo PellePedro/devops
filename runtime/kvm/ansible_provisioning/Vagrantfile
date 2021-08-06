@@ -46,6 +46,9 @@ MEMORY = 8292
 ENV['VAGRANT_NO_PARALLEL'] = 'yes'
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
+	config.ssh.insert_key = false
+	config.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key" ]
+
   config.vm.box = "generic/ubuntu2004"
   config.vm.provider :libvirt do |v|
     v.memory  = MEMORY
@@ -53,18 +56,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     v.cpus    = 2
   end
 
-  config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "/home/vagrant/.ssh/authorized_keys"
-  config.vm.provision :shell, :inline =>"
-    echo 'Copying ansible-vm public SSH Keys to the VM'
-    #mkdir -p /home/vagrant/.ssh
-    chmod 700 /home/vagrant/.ssh
-    chmod 400 /home/vagrant/.ssh/authorized_keys"
-
-
   # config.vm.provision "shell", path: "bootstrap.sh"
   # Kubernetes Master Server
   config.vm.define "master" do |node|
-    node.vm.hostname          = "master"
+    node.vm.hostname = "master"
 
     node_ip = "192.168.77.100"
 

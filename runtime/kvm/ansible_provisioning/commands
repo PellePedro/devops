@@ -1,0 +1,8 @@
+
+
+## Gather Facts
+```
+ansible all -m gather_facts --tree ./facts
+```
+
+
