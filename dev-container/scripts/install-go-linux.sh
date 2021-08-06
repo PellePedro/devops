@@ -24,3 +24,25 @@ rm ${PROTOBUF_ZIP}
 
 # protoc --go_out=plugins=grpc:./proto -I./proto test.proto
 
+###############
+# operator-sdk
+###############
+pushd /usr/local/bin
+OPERATOR_SDK_RELEASE=v1.10.0/operator-sdk_linux_amd64
+curl -fsSL https://github.com/operator-framework/operator-sdk/releases/download/${OPERATOR_SDK_RELEASE} \
+  -o operator-sdk \
+  && chmod +x operator-sdk
+
+
+###############
+# KubeBuilder
+###############
+
+KUBEBUILDER_RELEASE=v3.1.0/kubebuilder_linux_amd64
+KUBEBUILDER_BINARY=kubebuilder
+
+curl -fsSL  "https://github.com/kubernetes-sigs/kubebuilder/releases/download/${KUBEBUILDER_RELEASE}" \
+  -o "${KUBEBUILDER_BINARY}" \
+  && chmod +x "${KUBEBUILDER_BINARY}"
+
+popd

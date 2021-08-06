@@ -12,6 +12,7 @@ gcc \
 git \
 jq \
 links \
+lua5.1 \
 make \
 iproute2 \
 nodejs \

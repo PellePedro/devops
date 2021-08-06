@@ -59,7 +59,7 @@ if [[ -f /etc/os-release ]]; then
     export MYPATH=${MYPATH}:${GOROOT}/bin
   fi
 fi
-export PATH=${HOME}/bin:${PATH}
+export PATH=${HOME}/bin:${HOME}/.local/bin:${PATH}
 export GOSUMDB=off
 # <-- Environment Variables }}}
 

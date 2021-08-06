@@ -21,6 +21,8 @@ DOTFILES_HOME="$(dirname "$(realpath $0)")"
 
 echo "$DOTFILES_HOME"
 
+sudo chown -R $USER:$USER $DOTFILES_HOME
+
 echo "=== START of Configuration ==="
 
 mkdir -p $HOME/.vifm/colors
@@ -47,11 +49,11 @@ config_directories=(
 "$HOME/.local/share/nvim/site/pack/packer"
 )
 for directory in "${config_directories[@]}"; do
-    [[ -d $directory ]] && rm -rf $directory && echo "removing $directory"
+    [[ -d "$directory" ]] && rm -rf $directory && echo "removing $directory"
 done
 
 # Bootstrap zsh
-mkdir -p $HOME/.zsh
+mkdir -p "$HOME"/.zsh
 cp $DOTFILES_HOME/zsh/zshrc $HOME/.zshrc
 cp $DOTFILES_HOME/zsh/p10k.zsh $HOME/.p10k.zsh
 curl -fLo $HOME/.zsh/antigen.zsh --create-dirs https://git.io/antigen
@@ -61,19 +63,25 @@ cp $DOTFILES_HOME/vifm/vifmrc $HOME/.vifm/vifmrc
 cp $DOTFILES_HOME/vifm/colors/nord.vifm $HOME/.vifm/colors/nord.vifm
 
 #  pip3 packages
-pip3 install --user --upgrade pynvim
-pip3 install --user --upgrade pytest
-pip3 install --user --upgrade yq
+pip install --user --upgrade pynvim
+pip install --user --upgrade pytest
+pip install --user --upgrade yq
+pip install --user --upgrade ansible-core
+pip install --user --upgrade ansible
 
 #  Lunarvim configuration
-nvimHome=${HOME}/.config/nvim
+lvimHome=${HOME}/.config/lvim
 
-git clone --depth 1 --branch rolling  https://github.com/pellepedro/LunarVim.git "$nvimHome"
-if [[ -v CONTAINER ]]; then
-  rsync "$DOTFILES_HOME"/nvim/lv-config.lua "$HOME"/.config/nvim/lv-config.lua
-else
-  ln -s "$DOTFILES_HOME"/nvim/lv-config.lua "$HOME"/.config/nvim/lv-config.lua
-fi
+git clone --depth 1 https://github.com/pellepedro/lvim.git "$lvimHome"
+
+git clone https://github.com/wbthomason/packer.nvim ~/.local/share/lunarvim/site/pack/packer/start/packer.nvim
+
+mkdir -p ~/.local/share/lunarvim
+LVBRANCH=rolling
+
+git clone --branch "$LVBRANCH" https://github.com/pellepedro/lunarvim.git ~/.local/share/lunarvim/lvim
+sudo cp "$HOME/.local/share/lunarvim/lvim/utils/bin/lvim" "/usr/local/bin"
+sudo chmod a+rx /usr/local/bin/lvim
 
 #  tmux configuration
 [[ ! -d "${HOME}/.tmux" ]] && rm -rf "$HOME"/.tmux
