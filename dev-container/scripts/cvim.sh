@@ -1,7 +1,16 @@
-#/bin/bash
+#!/bin/bash
+
+if [ -z "$1" ]; then 
+  PROJ=$( cat ~/projects | fzf )
+elif [ "$1" = "." ]; then
+  PROJ=$(pwd)
+else
+  PROJ=$1
+fi
+
+echo "Mounting directory ${PROJ}"
 
 CONTAINER=docker.io/pellepedro/lvim:latest
-PROJ=$( cat ~/projects | fzf )
 docker run -it --rm --privileged \
     -v $(readlink -f /var/run/docker.sock):/var/run/docker.sock \
     -v ${HOME}/.ssh:/home/devops/.ssh:z \
