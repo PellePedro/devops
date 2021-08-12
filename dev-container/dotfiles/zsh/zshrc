@@ -64,7 +64,8 @@ export GOSUMDB=off
 # <-- Environment Variables }}}
 
 # --> Alias {{{
-alias vi="nvim"
+alias vi="lvim"
+alias nvim="lvim"
 alias tdev="TERM=xterm-256color tmux attach -t dev || TERM=xterm-256color tmux new -s dev"
 alias lg="lazygit"
 
@@ -94,19 +95,24 @@ alias gst='git status'
 # --> Functions {{{
 # 
 cv () {
-    mount_dir=$( cat ~/.projects | fzf)
+    if [ -z "$1" ]; then 
+      mount_dir=$( cat ~/projects | fzf)
+    elif [ "$1" = "." ]; then
+      mount_dir=$(pwd)
+    else
+      mount_dir=$1
+    fi
 
-    CONTAINER=docker.io/pellepedro/nvim:latest
+    CONTAINER=docker.io/pellepedro/lvim:latest
     docker run -it --rm --privileged --name dev \
         -w /home/devops/host \
+        -v $(readlink -f /var/run/docker.sock):/var/run/docker.sock \
         -v ${HOME}/.config/jesseduffield/lazygit:/home/devops/.config/lazygit:z \
-        -v ${HOME}/.gitconfig:/home/devops/.gitconfig:z \
         -v ${HOME}/.netrc:/home/devops/.netrc:z \
         -v ${HOME}/.ssh:/home/devops/.ssh:z \
         -v ${mount_dir}:/home/devops/host:Z \
         -v ${HOME}/go/pkg/mod:/home/devops/go/pkg/mod:z \
         ${CONTAINER} zsh
-
 }
 
 
