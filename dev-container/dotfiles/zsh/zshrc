@@ -104,7 +104,7 @@ cv () {
     fi
 
     CONTAINER=docker.io/pellepedro/lvim:latest
-    docker run -it --rm --privileged --name dev \
+    docker run -it --rm --privileged  \
         -w /home/devops/host \
         -v $(readlink -f /var/run/docker.sock):/var/run/docker.sock \
         -v ${HOME}/.config/jesseduffield/lazygit:/home/devops/.config/lazygit:z \
