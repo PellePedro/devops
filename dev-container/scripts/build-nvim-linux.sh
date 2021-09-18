@@ -34,7 +34,7 @@ luarocks build lpeg
 luarocks build inspect
 
 rm -r neovim
-git clone https://github.com/neovim/neovim
+git clone https://github.com/neovim/neovim --branch release-0.5
 cd neovim
 make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX} install
 #
