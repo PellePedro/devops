@@ -2,7 +2,7 @@
 ###########
 # GoLang
 ###########
-GO_VERSION="1.16.3"
+GO_VERSION="1.17.1"
 GOLANG_TAR=linux-amd64.tar.gz
 GOLANG_DOWNLOAD_URL=https://dl.google.com/go/go${GO_VERSION}.${GOLANG_TAR}
 curl -fsSL "$GOLANG_DOWNLOAD_URL" -o golang.tar.gz
