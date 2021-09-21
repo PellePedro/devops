@@ -12,6 +12,8 @@ RUN --mount=type=bind,source=scripts,target=/scripts \
     scripts/install-ubuntu-packages.sh && \
     scripts/install-go-linux.sh && \
     scripts/install-devops-ubuntu.sh && \
+    scripts/install-rust-linux.sh && \
+    curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to ~/.local/bin/ && \
 	  groupadd -g 1000 devops && \
 	  useradd -u 1000 --create-home --gid devops devops && \
 	  usermod -a -G sudo devops && \

@@ -81,7 +81,15 @@ LVBRANCH=rolling
 
 git clone --branch "$LVBRANCH" https://github.com/pellepedro/lunarvim.git ~/.local/share/lunarvim/lvim
 sudo cp "$HOME/.local/share/lunarvim/lvim/utils/bin/lvim" "/usr/local/bin"
-sudo chmod a+rx /usr/local/bin/lvim
+cat <<EOT > "${HOME}/.local/bin/lvim"
+#!/bin/sh
+
+export LUNARVIM_CONFIG_DIR=\${HOME}/.config/lvim
+export LUNARVIM_RUNTIME_DIR=\${HOME}/.local/share/lunarvim
+exec nvim -u "\${HOME}/.local/share/lunarvim/lvim/init.lua" "\$@"
+EOT
+
+sudo chmod a+rx "${HOME}/.local/bin/lvim"
 
 #  tmux configuration
 [[ ! -d "${HOME}/.tmux" ]] && rm -rf "$HOME"/.tmux
