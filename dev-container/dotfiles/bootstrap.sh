@@ -44,9 +44,11 @@ config_directories=(
 "${HOME}/.antigen"
 "${HOME}/.tmux"
 "${HOME}/.config/nvim"
+"${HOME}/.config/lvim"
 "${HOME}/.tmux"
 "${HOME}/.cache"
 "$HOME/.local/share/nvim/site/pack/packer"
+"$HOME/.local/share/lunarvim"
 )
 for directory in "${config_directories[@]}"; do
     [[ -d "$directory" ]] && rm -rf $directory && echo "removing $directory"
@@ -116,7 +118,7 @@ if [[ "$(uname)" == "Linux" ]]; then
   export PATH=${PATH}:/usr/local/go/bin
 fi
 
-go get golang.org/x/tools/cmd/goimports
+go install golang.org/x/tools/cmd/goimports@latest
 go install github.com/go-delve/delve/cmd/dlv@latest
-go get github.com/jesseduffield/lazygit
-go get github.com/jesseduffield/lazydocker
+go install github.com/jesseduffield/lazygit@latest
+go install github.com/jesseduffield/lazydocker@latest

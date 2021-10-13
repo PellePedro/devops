@@ -15,3 +15,13 @@ sudo systemctl start docker
 sudo systemctl status docker
 sudo usermod -aG docker ${USER}
 
+
+# Installing Docker Compose
+compose_plugin=$HOME/.docker/cli-plugins/docker-compose
+compose_version=v2.0.1
+compose_url=https://github.com/docker/compose/releases/download/${compose_version}/docker-compose-linux-x86_64
+
+curl -L --create-dirs --output $compose_plugin $compose_url
+chmod +x $compose_plugin
+
+
