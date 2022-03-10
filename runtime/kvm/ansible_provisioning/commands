@@ -2,6 +2,7 @@
 
 ## Gather Facts
 ```
+ansible all -m ping
 ansible all -m gather_facts --tree ./facts
 ```
 
