@@ -29,7 +29,7 @@ spec:
             topologyKey: kubernetes.io/hostname
       containers:
       - name: toolbox
-        image: registry.pellep.io:5000/toolbox:1.0.0
+        image: docker.io/pellepedro/toolbox:1.0.0
         command:
           - sleep
           - "3600"

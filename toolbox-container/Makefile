@@ -1,4 +1,4 @@
-IMAGE := registry.pellep.io:5000/toolbox:1.0.0
+IMAGE := docker.io/pellepedro/toolbox:1.0.0
 
 .PHONY: help
 help:	## - Show help message
